@@ -1,0 +1,112 @@
+/* CONTAINER */
+.dashboard-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #121212;
+}
+
+/* CARD */
+.dashboard-card {
+  background: #1E1E1E;
+  padding: 35px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* TITLE */
+h2 {
+  color: #FFD700;
+  margin: 0;
+}
+
+.subtitle {
+  color: #B0B0B0;
+  margin: 10px 0 25px;
+}
+
+/* SECTION */
+.section {
+  margin-bottom: 20px;
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  background: #121212;
+  color: #fff;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+input:focus {
+  border: 1px solid #00E5FF;
+  box-shadow: 0 0 6px #00E5FF;
+}
+
+/* PRIMARY BUTTON (Create) */
+.primary-btn {
+  width: 100%;
+  padding: 14px;
+  background: #FFD700;
+  border: none;
+  border-radius: 8px;
+  color: #121212;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  box-shadow: 0 0 10px #FFD700;
+}
+
+/* SECONDARY BUTTON (Join) */
+.secondary-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid #00E5FF;
+  border-radius: 8px;
+  color: #00E5FF;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn:hover {
+  background: #00E5FF;
+  color: #121212;
+}
+
+/* DIVIDER */
+.divider {
+  margin: 20px 0;
+  color: #B0B0B0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  height: 1px;
+  width: 40%;
+  background: #333;
+  position: absolute;
+  top: 50%;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}

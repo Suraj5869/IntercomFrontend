@@ -1,0 +1,65 @@
+<div class="room-container">
+
+  <!-- HEADER -->
+  <div class="room-header">
+    <h2>🚴 Room: {{ roomCode }}</h2>
+    <button class="leave-btn" (click)="leaveRoom()">Leave</button>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <span class="status-dot"></span>
+    <span>Connected</span>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="room-body">
+
+    <!-- LEFT: CHAT -->
+    <div class="chat-section">
+      <div class="chat-box">
+        <div *ngFor="let msg of messages" class="message">
+          {{ msg }}
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input [(ngModel)]="message" placeholder="Type message..." />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: VOICE CONTROL -->
+    <div class="voice-section">
+
+      <div class="mic-container">
+        <button class="mic-btn" [class.active]="isMicOn" (click)="toggleMic()">
+          {{ isMicOn ? '🎙️' : '🔇' }}
+        </button>
+      </div>
+
+      <p class="mic-status">
+        {{ isMicOn ? 'Mic is Live' : 'Mic is Muted' }}
+      </p>
+
+     <div class="users-list">
+  <h4>👥 Riders</h4>
+
+  <div *ngFor="let user of users" class="user-item">
+  {{ user.name }}
+
+  <span 
+    class="mic-indicator"
+    [class.speaking]="speakingUsers[user.id]">
+  </span>
+</div>
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- AUDIO -->
+<audio #remoteAudio autoplay></audio>

@@ -1,0 +1,23 @@
+<div class="login-container">
+
+  <div class="login-card">
+    <h2>🚴 Rider Intercom</h2>
+    <p class="subtitle">Login to continue</p>
+
+    <div class="form-group">
+      <input [(ngModel)]="email" placeholder="Email" />
+    </div>
+
+    <div class="form-group">
+      <input [(ngModel)]="password" type="password" placeholder="Password" />
+    </div>
+
+    <button class="login-btn" (click)="login()">Login</button>
+
+    <p class="footer-text">
+      Don’t have an account?
+      <a routerLink="/signup">Signup</a>
+    </p>
+  </div>
+
+</div>

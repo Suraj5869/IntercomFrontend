@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+
+  <div class="dashboard-card">
+    <h2>🚴 Rider Intercom</h2>
+    <p class="subtitle">Welcome! Start or join a ride room</p>
+
+    <!-- CREATE ROOM -->
+    <div class="section">
+      <button class="primary-btn" (click)="createRoom()">
+        ➕ Create Room
+      </button>
+    </div>
+
+    <div class="divider">OR</div>
+
+    <!-- JOIN ROOM -->
+    <div class="section">
+      <input [(ngModel)]="roomCode" placeholder="Enter Room Code" />
+      <button class="secondary-btn" (click)="joinRoom()">
+        🔗 Join Room
+      </button>
+    </div>
+
+  </div>
+
+</div>
