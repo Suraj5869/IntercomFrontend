@@ -5,7 +5,7 @@ import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.Component.html',
+  templateUrl: './signup.component.html',
   styleUrls: ['./login.component.css']
 })
 export class SignupComponent {

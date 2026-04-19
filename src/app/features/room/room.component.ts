@@ -5,7 +5,7 @@ import { SignalRService } from 'src/app/core/services/signalr.service';
 
 @Component({
   selector: 'app-room',
-  templateUrl: './room.Component.html',
+  templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
 })
 export class RoomComponent implements OnInit {
