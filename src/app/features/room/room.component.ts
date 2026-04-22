@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignalRService } from 'src/app/core/services/signalr.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-room',
@@ -36,6 +37,7 @@ private speakingOffTimer: any = null;
   constructor(
     private signalR: SignalRService,
     private router: Router,
+    private toast: ToastService
   ) {}
 
   async ngOnInit() {
@@ -241,4 +243,21 @@ private speakingOffTimer: any = null;
 
     console.log('Mic is now:', this.isMicOn ? 'ON' : 'OFF');
   }
+
+  shareRoom() {
+  const roomLink = `${window.location.origin}/join/${this.roomCode}`;
+
+  // 🔥 Try native sharing first (mobile + modern browsers)
+  if (navigator.share) {
+    navigator.share({
+      title: 'Join my room',
+      text: `Join my room using this code: ${this.roomCode}`,
+      url: roomLink
+    }).catch(err => console.log('Share cancelled', err));
+  } else {
+    // fallback → copy to clipboard
+    navigator.clipboard.writeText(roomLink);
+    this.toast.info('Room link copied!');  
+  }
+}
 }

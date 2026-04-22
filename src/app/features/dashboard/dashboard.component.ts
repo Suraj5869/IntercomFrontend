@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
@@ -12,9 +12,14 @@ export class DashboardComponent {
   roomCode: string = '';
   userId: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private toast: ToastService) {
+  constructor(private http: HttpClient, private router: Router, private toast: ToastService, private route: ActivatedRoute) {
     this.userId = localStorage.getItem('userId') || '';
   }
+
+  ngOnInit() {
+  this.roomCode = this.route.snapshot.paramMap.get('roomCode') || '';
+  this.joinRoom();
+}
 
   createRoom() {
     this.http.post('https://intercombackend-5h0c.onrender.com/api/Room/create', {

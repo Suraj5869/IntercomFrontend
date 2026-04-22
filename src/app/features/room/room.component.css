@@ -1,11 +1,12 @@
 /* CONTAINER */
 .room-container {
-  height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background: #121212;
   color: #fff;
   padding: 15px;
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -13,21 +14,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 0;
 }
 
-.room-header h2 {
+.header-left h2 {
   color: #FFD700;
   margin: 0;
+  font-size: 20px;
 }
 
-.leave-btn {
-  background: red;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
+/* RIGHT BUTTON GROUP */
+.header-right {
+  display: flex;
+  gap: 10px;
 }
+
 
 /* STATUS */
 .status-bar {
@@ -51,6 +52,7 @@
   flex: 1;
   display: flex;
   gap: 15px;
+  overflow: hidden;
 }
 
 /* CHAT */
@@ -58,10 +60,11 @@
   flex: 2;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .chat-box {
-  flex: 1;
+    height: 300px; /* fixed height */
   background: #1E1E1E;
   border-radius: 10px;
   padding: 10px;
@@ -167,6 +170,36 @@
   animation: pulse 1s infinite;
 }
 
+/* SHARE BUTTON */
+.share-btn {
+  background: #00E5FF;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #121212;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.share-btn:hover {
+  background: #00c4d6;
+}
+
+/* LEAVE BUTTON */
+.leave-btn {
+  background: red;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.leave-btn:hover {
+  background: darkred;
+}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 5px #00E5FF;
@@ -176,5 +209,79 @@
   }
   100% {
     box-shadow: 0 0 5px #00E5FF;
+  }
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .room-body {
+    flex-direction: column;
+  }
+
+   .chat-section {
+    flex: unset;
+    height: 60%;
+  }
+
+  .voice-section {
+    flex: unset;
+    height: 40%;
+    padding: 10px;
+  }
+
+  .chat-box {
+    height: 200px;;
+    max-height: 250px;
+  }
+
+  .mic-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 14px;
+  }
+
+  .room-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header-right button {
+    flex: 1;
+  }
+
+  .users-list {
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  .user-item {
+    font-size: 14px;
+  }
+
+  .chat-input input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .chat-input button {
+    padding: 10px;
+  }
+
+  .voice-section {
+    position: sticky;
+    bottom: 0;
+    background: #1E1E1E;
+    border-top: 1px solid #333;
+  }
+
+   .mic-indicator {
+    width: 12px;
+    height: 12px;
   }
 }

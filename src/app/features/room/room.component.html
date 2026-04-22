@@ -2,9 +2,19 @@
 
   <!-- HEADER -->
   <div class="room-header">
+
+  <!-- LEFT -->
+  <div class="header-left">
     <h2>🚴 Room: {{ roomCode }}</h2>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="header-right">
+    <button class="share-btn" (click)="shareRoom()">Share</button>
     <button class="leave-btn" (click)="leaveRoom()">Leave</button>
   </div>
+
+</div>
 
   <!-- STATUS BAR -->
   <div class="status-bar">
