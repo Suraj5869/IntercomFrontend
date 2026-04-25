@@ -9,7 +9,9 @@ export class SignalRService {
 
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://intercombackend-5h0c.onrender.com/rideHub') // your API URL
+      .withUrl('https://intercombackend-5h0c.onrender.com/rideHub', {
+    accessTokenFactory: () => localStorage.getItem('token') || ''
+  }) // your API URL
       .withAutomaticReconnect()
       .build();
 

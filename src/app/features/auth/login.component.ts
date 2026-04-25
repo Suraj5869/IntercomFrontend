@@ -25,27 +25,33 @@ export class LoginComponent {
       password: this.password,
     };
 
-    this.auth.login(payload).subscribe({
-      next: (res: any) => {
-        console.log('Login success', res);
-        localStorage.setItem('user', JSON.stringify(res));
-        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+   this.auth.login(payload).subscribe({
+  next: (res: any) => {
 
-        // store userId (temporary, later JWT)
-        localStorage.setItem('userId', res.userId);
-        localStorage.setItem('userName', res.name);
+    console.log('Login success', res);
 
-        if (returnUrl) {
-          this.router.navigateByUrl(returnUrl);
-        } else {
-          this.router.navigate(['/dashboard']);
-          this.toast.success('Login successful 🎉');
-        }
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-        this.toast.error('Invalid credentials');
-      },
-    });
+    // 🔥 SAVE TOKEN FIRST
+    this.auth.saveToken(res.token);
+
+    // store user info
+    localStorage.setItem('userId', res.userId);
+    localStorage.setItem('userName', res.name);
+
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
+
+    this.toast.success('Login successful 🎉');
+  },
+
+  error: (err) => {
+    console.error('Login failed', err);
+    this.toast.error('Invalid credentials');
+  },
+});
   }
 }

@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './features/auth/login.component';
 import { SignupComponent } from './features/auth/signup.component';
 import { RoomComponent } from './features/room/room.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ToastComponent } from './features/toast/toast.component';
+import { AuthInterceptor } from './core/Interceptor/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ToastComponent } from './features/toast/toast.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
