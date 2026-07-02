@@ -10,12 +10,13 @@ export class ToastComponent {
   toasts: Toast[] = [];
 
   constructor(private toastService: ToastService) {
-    this.toastService.toast$.subscribe(toast => {
-      this.toasts.push(toast);
+    // this.toastService.showToast = (options) => {
+    //   const toast = { ...options };
+    //   this.toasts.push(toast);
 
-      setTimeout(() => {
-        this.toasts.shift();
-      }, 3000);
-    });
+    //   setTimeout(() => {
+    //     this.toasts.shift();
+    //   }, 3000);
+    // });
   }
 }

@@ -16,7 +16,7 @@ export class LoginComponent {
     readonly auth: AuthService,
     readonly router: Router,
     readonly toast: ToastService,
-    readonly route: ActivatedRoute,
+    readonly route: ActivatedRoute
   ) {}
 
   login() {
@@ -45,12 +45,12 @@ export class LoginComponent {
       this.router.navigate(['/dashboard']);
     }
 
-    this.toast.success('Login successful 🎉');
+    this.toast.showToast({ type: 'success', message: 'Login successful 🎉' });
   },
 
   error: (err) => {
     console.error('Login failed', err);
-    this.toast.error('Invalid credentials');
+    this.toast.showToast({ type: 'error', message: 'Invalid credentials' });
   },
 });
   }

@@ -25,12 +25,12 @@ export class SignupComponent {
 
     this.auth.signup(payload).subscribe({
       next: () => {
-        this.toast.success('Signup successful 🎉');
+        this.toast.showToast({ type: 'success', message: 'Signup successful 🎉' });
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error(err);
-        this.toast.error('Signup failed');
+        this.toast.showToast({ type: 'error', message: 'Signup failed' });
       }
     });
   }

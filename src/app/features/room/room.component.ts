@@ -297,7 +297,7 @@ export class RoomComponent implements OnInit {
     } else {
       // fallback → copy to clipboard
       navigator.clipboard.writeText(roomLink);
-      this.toast.info('Room link copied!');
+      this.toast.showToast({ type: 'info', message: 'Room link copied!' });
     }
   }
 }

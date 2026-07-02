@@ -96,3 +96,106 @@ body{
   font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:.15s;
 }
 .logout-btn:hover{background:var(--red); color:#1a0a0a;}
+
+/* ===========================================================
+   TOASTS — matches the highway / CB-radio design system
+   Include on every page after style.css
+=========================================================== */
+
+.toast-container{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:1000;
+  display:flex;
+  flex-direction:column-reverse;
+  gap:12px;
+  max-width:360px;
+  width:calc(100% - 48px);
+  pointer-events:none;
+}
+
+.toast{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-left:3px solid var(--amber);
+  border-radius:4px;
+  padding:14px 16px 14px 14px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+  animation:toast-in .28s cubic-bezier(.2,.9,.3,1.2);
+  pointer-events:auto;
+}
+.toast.closing{ animation:toast-out .22s ease forwards; }
+
+@keyframes toast-in{
+  from{ transform:translateX(24px); opacity:0; }
+  to{ transform:translateX(0); opacity:1; }
+}
+@keyframes toast-out{
+  from{ transform:translateX(0); opacity:1; }
+  to{ transform:translateX(24px); opacity:0; }
+}
+
+/* type accents — same palette as mic/status states */
+.toast.success{ border-left-color:var(--route-green-bright); }
+.toast.error{ border-left-color:var(--red); }
+.toast.info{ border-left-color:var(--amber); }
+
+.toast-icon{
+  flex-shrink:0;
+  width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-input-solid);
+  border:1px solid var(--border);
+  margin-top:1px;
+}
+.toast-icon svg{ width:15px; height:15px; }
+.toast.success .toast-icon{ color:var(--route-green-bright); }
+.toast.error .toast-icon{ color:var(--red); }
+.toast.info .toast-icon{ color:var(--amber); }
+
+.toast-body{ flex:1; min-width:0; }
+.toast-label{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+  margin-bottom:3px;
+}
+.toast.success .toast-label{ color:var(--route-green-bright); }
+.toast.error .toast-label{ color:var(--red); }
+.toast.info .toast-label{ color:var(--amber); }
+
+.toast-msg{
+  font-family:var(--font-body); font-size:13.5px; line-height:1.4; color:var(--text-primary);
+}
+
+.toast-close{
+  flex-shrink:0;
+  background:none; border:none; cursor:pointer; color:var(--text-tertiary);
+  font-size:16px; line-height:1; padding:2px; margin-top:1px;
+  transition:color .15s ease;
+}
+.toast-close:hover{ color:var(--line-cream); }
+
+/* mile-marker progress bar (auto-dismiss countdown) */
+.toast-progress{
+  position:absolute; bottom:0; left:0; height:2px; width:100%;
+  background:repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 11px);
+  transform-origin:left;
+  animation:toast-countdown linear forwards;
+}
+.toast.success .toast-progress{ color:var(--route-green-bright); }
+.toast.error .toast-progress{ color:var(--red); }
+.toast.info .toast-progress{ color:var(--amber); }
+
+@keyframes toast-countdown{
+  from{ transform:scaleX(1); }
+  to{ transform:scaleX(0); }
+}
+
+@media(max-width:480px){
+  .toast-container{ right:12px; left:12px; bottom:12px; max-width:none; width:auto; pointer-events: none; }
+}
