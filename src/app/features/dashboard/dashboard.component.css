@@ -37,6 +37,7 @@
 
 .card-join{border-color:var(--border-bright);}
 .channel-row{display:flex; gap:10px;}
+@media(max-width:760px){.channel-row{display:flex; flex-direction:column; gap:12px;}}
 .channel-row input{
   flex:1; padding:14px; background:var(--bg-input-solid); border:1px solid var(--border); border-radius:3px;
   color:var(--line-cream); font-family:var(--font-mono); font-size:15px; letter-spacing:0.12em; text-transform:uppercase;
