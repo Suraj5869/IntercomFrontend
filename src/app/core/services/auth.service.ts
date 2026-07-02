@@ -6,11 +6,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  readonly baseUrl = `${environment.apiUrl}/Auth`;
 
-  
-  private baseUrl = `${environment.apiUrl}/Auth`;
-
-  constructor(private http: HttpClient) {}
+  constructor(readonly http: HttpClient) {}
 
   signup(data: any) {
     return this.http.post(`${this.baseUrl}/signup`, data);

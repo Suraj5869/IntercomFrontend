@@ -13,10 +13,10 @@ export class LoginComponent {
   password: string = '';
 
   constructor(
-    private auth: AuthService,
-    private router: Router,
-    private toast: ToastService,
-    private route: ActivatedRoute,
+    readonly auth: AuthService,
+    readonly router: Router,
+    readonly toast: ToastService,
+    readonly route: ActivatedRoute,
   ) {}
 
   login() {

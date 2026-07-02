@@ -1,27 +1,47 @@
-<div class="login-container">
-
-  <div class="login-card">
-    <h2>🚴 Rider Intercom</h2>
-    <p class="subtitle">Create your account</p>
-
-    <div class="form-group">
-      <input [(ngModel)]="name" placeholder="Name" />
+<nav class="gear-nav">
+  <a class="brand"><span class="dot"></span> Rider Intercom</a>
+</nav>
+ 
+<section class="login-screen">
+  <div class="login-hero">
+    <svg class="route" viewBox="0 0 600 800" preserveAspectRatio="none">
+      <path d="M -20 40 C 150 100, 80 250, 260 300 S 450 500, 380 620 S 550 740, 620 800" stroke="#f2ead9" stroke-width="2" stroke-dasharray="10 14" fill="none" opacity="0.15"/>
+      <circle cx="-20" cy="40" r="4" fill="#ffb020" opacity="0.6"/>
+      <circle cx="260" cy="300" r="4" fill="#ffb020" opacity="0.6"/>
+      <circle cx="380" cy="620" r="4" fill="#59a874" opacity="0.6"/>
+    </svg>
+    <div>
+      <div class="mile-tag">Est. Mile 0</div>
+      <h1 class="hero-headline">Ride.<br>Talk.<br><span>Together.</span></h1>
+      <p class="hero-sub">Live voice and text between every rider in your pack — no cell reception dead zones, no losing the group at the next gas stop.</p>
     </div>
-
-    <div class="form-group">
-      <input [(ngModel)]="email" placeholder="Email" />
+    <div class="hero-stats">
+      <div class="hero-stat"><b>12k+</b><span>Riders Onboard</span></div>
+      <div class="hero-stat"><b>340</b><span>Convoys Today</span></div>
+      <div class="hero-stat"><b>&lt;80ms</b><span>Voice Latency</span></div>
     </div>
-
-    <div class="form-group">
-      <input [(ngModel)]="password" type="password" placeholder="Password" />
-    </div>
-
-    <button class="login-btn" (click)="signup()">Signup</button>
-
-    <p class="footer-text">
-      Already have an account?
-      <a routerLink="/login">Login</a>
-    </p>
   </div>
-
-</div>
+ 
+  <div class="login-formside">
+    <div class="console">
+      <h2>Sign Up</h2>
+      <p class="tag">Create an account to continue your route</p>
+      <form id="login-form">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" name="name" placeholder="Your Name" [(ngModel)]="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" placeholder="you@ridermail.com" [(ngModel)]="email" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" placeholder="••••••••••" [(ngModel)]="password" required>
+        </div>
+        <button type="button" class="btn-primary" (click)="signup()">Create Account →</button>
+      </form>
+      <div class="foot-link">Already have an account? <a routerLink="/login">Login</a></div>
+    </div>
+  </div>
+</section>

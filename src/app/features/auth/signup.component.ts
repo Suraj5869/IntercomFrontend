@@ -14,7 +14,7 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private auth: AuthService, private router: Router, private toast: ToastService) {}
+  constructor(readonly auth: AuthService, readonly router: Router, readonly toast: ToastService) {}
 
   signup() {
     const payload = {

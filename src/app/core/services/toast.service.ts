@@ -8,7 +8,7 @@ export interface Toast {
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-  private toastSubject = new Subject<Toast>();
+  readonly toastSubject = new Subject<Toast>();
   toast$ = this.toastSubject.asObservable();
 
   show(message: string, type: Toast['type'] = 'info') {

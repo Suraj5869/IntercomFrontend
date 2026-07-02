@@ -1,75 +1,86 @@
-<div class="room-container">
+<nav class="gear-nav">
+  <a href="dashboard.html" class="brand"
+    ><span class="dot"></span> Rider Intercom</a
+  >
+</nav>
 
-  <!-- HEADER -->
-  <div class="room-header">
-
-  <!-- LEFT -->
-  <div class="header-left">
-    <h2>🚴 Room: {{ roomCode }}</h2>
+<section class="room-screen">
+  <div class="room-bar">
+    <div class="room-id">
+      <span class="callsign"
+        >Room <b id="room-code-display">{{ roomCode }}</b></span
+      >
+      <span class="status-chip"><span class="led"></span> Connected</span>
+    </div>
+    <div class="room-actions">
+      <button class="btn-share" id="share-btn" (click)="shareRoom()">
+        Share Code
+      </button>
+      <button class="btn-leave" (click)="leaveRoom()">Leave</button>
+    </div>
   </div>
 
-  <!-- RIGHT -->
-  <div class="header-right">
-    <button class="share-btn" (click)="shareRoom()">Share</button>
-    <button class="leave-btn" (click)="leaveRoom()">Leave</button>
-  </div>
-
-</div>
-
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <span class="status-dot"></span>
-    <span>Connected</span>
-  </div>
-
-  <!-- MAIN CONTENT -->
   <div class="room-body">
-
-    <!-- LEFT: CHAT -->
-    <div class="chat-section">
-      <div class="chat-box">
+    <div class="chat-col">
+      <div class="chat-log" id="chat-log">
         <div *ngFor="let msg of messages" class="message">
-          {{ msg }}
+           <div class="chat-msg" [class.outgoing]="msg.isMine" [class.incoming]="!msg.isMine">
+          <span class="msg-sender">{{ msg.senderName }}</span>
+          <div class="msg-bubble">{{ msg.message }}</div>
+        </div>
         </div>
       </div>
-
-      <div class="chat-input">
-        <input [(ngModel)]="message" placeholder="Type message..." />
-        <button (click)="sendMessage()">Send</button>
-      </div>
-    </div>
-
-    <!-- RIGHT: VOICE CONTROL -->
-    <div class="voice-section">
-
-      <div class="mic-container">
-        <button class="mic-btn" [class.active]="isMicOn" (click)="toggleMic()">
-          {{ isMicOn ? '🎙️' : '🔇' }}
+      <div class="msg-bar">
+        <input
+          type="text"
+          id="msg-input"
+          placeholder="Type message..."
+          [(ngModel)]="message"
+          name="message"
+        />
+        <button class="send-btn" id="send-btn" (click)="sendMessage()">
+          Send
         </button>
       </div>
-
-      <p class="mic-status">
-        {{ isMicOn ? 'Mic is Live' : 'Mic is Muted' }}
-      </p>
-
-     <div class="users-list">
-  <h4>👥 Riders</h4>
-
-  <div *ngFor="let user of users" class="user-item">
-  {{ user.name }}
-
-  <span 
-    class="mic-indicator"
-    [class.speaking]="speakingUsers[user.id]">
-  </span>
-</div>
-</div>
-
     </div>
 
+    <div class="side-col">
+      <div class="ptt-wrap">
+        <button
+          class="ptt-btn mic-off"
+          id="ptt-btn"
+          title="Push to talk"
+          [class.active]="isMicOn"
+          (click)="toggleMic()"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#d6483f"
+            stroke-width="1.8"
+          >
+            <path d="M9 3a3 3 0 0 1 6 0v8a3 3 0 0 1-6 0V3z" />
+            <path d="M5 11a7 7 0 0 0 14 0" />
+            <line x1="12" y1="18" x2="12" y2="22" />
+            <line x1="8" y1="22" x2="16" y2="22" />
+          </svg>
+        </button>
+        <div class="ptt-label" id="ptt-label">Mic is Muted</div>
+      </div>
+
+      <div class="riders-head">
+        <span>Riders</span>
+      </div>
+      <div *ngFor="let user of users" class="rider-row">
+        <!-- <div class="rider-avatar">JM</div> -->
+        <div class="rider-meta">
+          <b>{{ user.name }}</b
+          ><span>Ride Leader</span>
+        </div>
+        <!-- <span class="mic-indicator" [class.speaking]="speakingUsers[user.id]">
+          </span> -->
+        <div class="mic-dot on" [class.speaking]="speakingUsers[user.id]"></div>
+      </div>
+    </div>
   </div>
-
-</div>
-
-<!-- AUDIO -->
-<audio #remoteAudio autoplay></audio>
+</section>

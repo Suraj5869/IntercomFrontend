@@ -1,0 +1,6 @@
+projectKey=RiderIntercomFrontend
+serverUrl=http://localhost:9000
+serverVersion=26.6.0.123539
+dashboardUrl=http://localhost:9000/dashboard?id=RiderIntercomFrontend
+ceTaskId=f497fc2c-0f43-4906-91cb-bbc18ffee857
+ceTaskUrl=http://localhost:9000/api/ce/task?id=f497fc2c-0f43-4906-91cb-bbc18ffee857

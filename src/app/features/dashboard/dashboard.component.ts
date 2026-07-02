@@ -30,10 +30,11 @@ export class DashboardComponent {
     this.http.post(this.baseUrl + '/create', {
       userId: this.userId
     }).subscribe((res: any) => {
-      const code = res.roomCode || res;
-
+      const code = res.roomCode;
+      const roomId = res.roomId;
       // store roomCode
       localStorage.setItem('roomCode', code);
+      localStorage.setItem('roomId', roomId);
 
       // redirect to room
       this.router.navigate(['/room']);
@@ -50,8 +51,9 @@ export class DashboardComponent {
     this.http.post(this.baseUrl + '/join', {
       userId: this.userId,
       code: this.roomCode
-    }).subscribe(() => {
+    }).subscribe((res: any) => {
       localStorage.setItem('roomCode', this.roomCode);
+      localStorage.setItem('roomId', res.roomId);
       this.router.navigate(['/room']);
       this.toast.success('Room joined successfully 🎉');
     });
