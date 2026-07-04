@@ -74,8 +74,9 @@
       <div *ngFor="let user of users" class="rider-row">
         <!-- <div class="rider-avatar">JM</div> -->
         <div class="rider-meta">
-          <b>{{ user.name }}</b
-          ><span>Ride Leader</span>
+          <b>{{ user.name }}</b>
+          <span *ngIf="isCreator">Ride Leader</span>
+          <span *ngIf="!isCreator">Ride Member</span>
         </div>
         <!-- <span class="mic-indicator" [class.speaking]="speakingUsers[user.id]">
           </span> -->
