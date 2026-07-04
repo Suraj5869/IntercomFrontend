@@ -36,6 +36,7 @@ export class RoomComponent implements OnInit {
   myMicDot: HTMLElement | null = null;
 
   roomId: string = '';
+  isCreator: boolean = false;
   api = `${environment.apiUrl}/Room`;
 
   constructor(
@@ -49,11 +50,12 @@ export class RoomComponent implements OnInit {
     this.roomId = localStorage.getItem('roomId') || '';
     this.roomCode = localStorage.getItem('roomCode') || '';
     this.userId = localStorage.getItem('userId') || '';
+    this.isCreator = localStorage.getItem('roomCreatedBy') === this.userId;
 
     this.pttBtn = document.getElementById('ptt-btn');
     this.pttLabel = document.getElementById('ptt-label');
     this.myMicDot = document.getElementById('my-mic-dot');
-    
+
     await this.signalR.startConnection();
 
     this.signalR.onUsersUpdate((users: { id: string; name: string }[]) => {
@@ -64,7 +66,7 @@ export class RoomComponent implements OnInit {
     this.signalR.joinRoom(this.roomCode, this.userId);
     await this.startVoice(); // 🔥 ADD THIS
 
-    this.signalR.onReceiveMessage((msg:ChatMessage) => {
+    this.signalR.onReceiveMessage((msg: ChatMessage) => {
       msg.isMine = msg.senderId === this.userId;
       console.log('Received message:', msg);
       this.messages.push(msg);
@@ -129,7 +131,12 @@ export class RoomComponent implements OnInit {
   }
 
   sendMessage() {
-    this.signalR.sendMessage(this.roomCode, this.message, this.userId, localStorage.getItem('userName') || '');
+    this.signalR.sendMessage(
+      this.roomCode,
+      this.message,
+      this.userId,
+      localStorage.getItem('userName') || '',
+    );
     this.message = '';
   }
 
@@ -261,7 +268,7 @@ export class RoomComponent implements OnInit {
     this.localStream.getAudioTracks().forEach((track) => {
       track.enabled = this.isMicOn;
     });
-    
+
     if (this.isMicOn) {
       this.pttBtn?.classList.remove('mic-off');
       this.pttBtn?.classList.add('mic-on');

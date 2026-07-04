@@ -11,6 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ToastComponent } from './features/toast/toast.component';
 import { AuthInterceptor } from './core/Interceptor/AuthInterceptor';
+import { MusicPlayerComponent } from './features/room/music-player/music-player.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthInterceptor } from './core/Interceptor/AuthInterceptor';
     SignupComponent,
     RoomComponent,
     DashboardComponent,
-    ToastComponent
+    ToastComponent,
+    MusicPlayerComponent
   ],
   imports: [
     BrowserModule,

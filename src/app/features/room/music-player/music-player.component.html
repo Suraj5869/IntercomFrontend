@@ -1,0 +1,23 @@
+<div class="music-player">
+  <audio #audioEl></audio>
+
+  <div class="music-header">
+    <span>🎵 Room Playlist</span>
+    <label class="upload-btn">
+      {{ uploading ? 'Uploading…' : '+ Add MP3' }}
+      <input type="file" accept=".mp3" (change)="onFileSelected($event)" [disabled]="uploading" hidden />
+    </label>
+  </div>
+
+  <ul class="playlist">
+    <li *ngFor="let song of playlist" [class.active]="song.id === currentSongId">
+      <span class="song-name" (click)="playSong(song)">{{ song.songName }}</span>
+      <button *ngIf="isCreator" class="remove-btn" (click)="removeSong(song)" title="Remove">✕</button>
+    </li>
+    <li *ngIf="playlist.length === 0" class="empty">No songs yet — add one to get started</li>
+  </ul>
+
+  <div class="now-playing-bar" *ngIf="currentSongId">
+    <button (click)="togglePause()">{{ isPlaying ? '⏸ Pause' : '▶ Paused' }}</button>
+  </div>
+</div>

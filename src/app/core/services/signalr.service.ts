@@ -7,7 +7,6 @@ import { ChatMessage } from '../models/ChatMessage';
 })
 export class SignalRService {
   private hubConnection!: signalR.HubConnection;
-
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://intercombackend-5h0c.onrender.com/rideHub', {
@@ -31,8 +30,19 @@ export class SignalRService {
     this.hubConnection.invoke('LeaveRoom', roomCode);
   }
 
-  public sendMessage(roomCode: string, message: string, senderId: string, senderName: string) {
-    this.hubConnection.invoke('SendMessage', roomCode, message, senderId, senderName);
+  public sendMessage(
+    roomCode: string,
+    message: string,
+    senderId: string,
+    senderName: string,
+  ) {
+    this.hubConnection.invoke(
+      'SendMessage',
+      roomCode,
+      message,
+      senderId,
+      senderName,
+    );
   }
 
   public onReceiveMessage(callback: (message: ChatMessage) => void) {
@@ -88,6 +98,57 @@ export class SignalRService {
   }
 
   onPlaylistUpdated(callback: any) {
-    this.hubConnection.on("PlaylistUpdated", callback);
-}
+    this.hubConnection.on('PlaylistUpdated', callback);
+  }
+  onPlaylistSongRemoved(callback: (songId: string) => void) {
+    this.hubConnection.on('PlaylistSongRemoved', callback);
+  }
+
+  // --- Music playback (shared jukebox) ---
+
+  playMusic(
+    roomCode: string,
+    songId: string,
+    songUrl: string,
+    songName: string,
+  ) {
+    this.hubConnection.invoke('PlayMusic', roomCode, songId, songUrl, songName);
+  }
+
+  pauseMusic(roomCode: string, positionSeconds: number) {
+    this.hubConnection.invoke('PauseMusic', roomCode, positionSeconds);
+  }
+
+  stopMusic(roomCode: string) {
+    this.hubConnection.invoke('StopMusic', roomCode);
+  }
+
+  notifySongEnded(roomCode: string, roomId: string, songId: string) {
+    this.hubConnection.invoke('NotifySongEnded', roomCode, roomId, songId);
+  }
+
+ 
+
+  onMusicPlay(
+    callback: (data: {
+      songId: string;
+      songUrl: string;
+      songName: string;
+      startTime: string;
+    }) => void,
+  ) {
+    this.hubConnection.on('MusicPlay', callback);
+  }
+
+  onMusicPause(callback: (position: number) => void) {
+    this.hubConnection.on('MusicPause', callback);
+  }
+
+  onMusicStop(callback: () => void) {
+    this.hubConnection.on('MusicStop', callback);
+  }
+
+  onMusicError(callback: (message: string) => void) {
+    this.hubConnection.on('MusicError', callback);
+  }
 }

@@ -1,0 +1,113 @@
+.music-player {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.music-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+
+.upload-btn {
+  padding: 7px 14px;
+  border-radius: 3px;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.upload-btn:hover {
+  background: var(--amber);
+  color: #1a1400;
+}
+
+.playlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.playlist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 4px;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.playlist li.active {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.playlist li.empty {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  justify-content: center;
+  background: transparent;
+}
+
+.song-name {
+  cursor: pointer;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 0 0 10px;
+}
+
+.now-playing-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.now-playing-bar button {
+  padding: 9px 16px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--bg-input-solid);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.now-playing-bar button:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}

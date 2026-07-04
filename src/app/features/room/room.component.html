@@ -81,6 +81,8 @@
           </span> -->
         <div class="mic-dot on" [class.speaking]="speakingUsers[user.id]"></div>
       </div>
+      <app-music-player [roomCode]="roomCode" [roomId]="roomId" [isCreator]="isCreator" class="music-player"></app-music-player>
     </div>
+
   </div>
 </section>

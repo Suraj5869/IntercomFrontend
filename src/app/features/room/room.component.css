@@ -94,3 +94,8 @@
 .mic-dot{width:8px; height:8px; border-radius:50%;}
 .mic-dot.on{background:var(--route-green-bright); box-shadow:0 0 6px var(--route-green-bright);}
 .mic-dot.off{background:var(--text-tertiary);}
+
+.music-player{
+
+  width: 100%;
+}

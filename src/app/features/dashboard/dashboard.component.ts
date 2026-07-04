@@ -43,7 +43,7 @@ export class DashboardComponent {
         // store roomCode
         localStorage.setItem('roomCode', code);
         localStorage.setItem('roomId', roomId);
-
+        localStorage.setItem('roomCreatedBy', res.createdBy);
         // redirect to room
         this.router.navigate(['/room']);
         this.toast.showToast({
@@ -67,6 +67,7 @@ export class DashboardComponent {
       .subscribe((res: any) => {
         localStorage.setItem('roomCode', this.roomCode);
         localStorage.setItem('roomId', res.roomId);
+        localStorage.setItem('roomCreatedBy', res.createdBy);
         this.router.navigate(['/room']);
         this.toast.showToast({
           type: 'success',
