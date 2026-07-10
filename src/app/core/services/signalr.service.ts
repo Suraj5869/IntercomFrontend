@@ -6,10 +6,11 @@ import { ChatMessage } from '../models/ChatMessage';
   providedIn: 'root',
 })
 export class SignalRService {
+  // 'https://intercombackend-5h0c.onrender.com/rideHub'
   private hubConnection!: signalR.HubConnection;
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://intercombackend-5h0c.onrender.com/rideHub', {
+      .withUrl('https://localhost:7282/rideHub', {
         accessTokenFactory: () => localStorage.getItem('token') || '',
       }) // your API URL
       .withAutomaticReconnect()
@@ -28,6 +29,10 @@ export class SignalRService {
 
   public leaveRoom(roomCode: string) {
     this.hubConnection.invoke('LeaveRoom', roomCode);
+  }
+
+    get connectionId(): string | null {
+    return this.hubConnection.connectionId;
   }
 
   public sendMessage(
@@ -49,37 +54,38 @@ export class SignalRService {
     this.hubConnection.on('ReceiveMessage', callback);
   }
 
-  sendOffer(roomCode: string, offer: any) {
-    this.hubConnection.invoke('SendOffer', roomCode, JSON.stringify(offer));
+  sendOffer(roomCode: string, targetConnectionId: string, offer: any) {
+    this.hubConnection.invoke('SendOffer', roomCode, targetConnectionId, JSON.stringify(offer));
   }
 
-  sendAnswer(roomCode: string, answer: any) {
-    this.hubConnection.invoke('SendAnswer', roomCode, JSON.stringify(answer));
+  sendAnswer(roomCode: string, targetConnectionId: string, answer: any) {
+    this.hubConnection.invoke('SendAnswer', roomCode, targetConnectionId, JSON.stringify(answer));
   }
 
-  sendIceCandidate(roomCode: string, candidate: any) {
+  sendIceCandidate(roomCode: string, targetConnectionId: string, candidate: any) {
     this.hubConnection.invoke(
       'SendIceCandidate',
       roomCode,
+      targetConnectionId,
       JSON.stringify(candidate),
     );
   }
 
-  onReceiveOffer(callback: any) {
-    this.hubConnection.on('ReceiveOffer', (offer) => {
-      callback(JSON.parse(offer));
+  onReceiveOffer(callback: (fromConnectionId: string, offer: any) => void) {
+    this.hubConnection.on('ReceiveOffer', (fromConnectionId, offer) => {
+      callback(fromConnectionId, JSON.parse(offer));
     });
   }
 
-  onReceiveAnswer(callback: any) {
-    this.hubConnection.on('ReceiveAnswer', (answer) => {
-      callback(JSON.parse(answer));
+  onReceiveAnswer(callback: (fromConnectionId: string, answer: any)=> void) {
+    this.hubConnection.on('ReceiveAnswer', (fromConnectionId, answer) => {
+      callback(fromConnectionId, JSON.parse(answer));
     });
   }
 
-  onReceiveIceCandidate(callback: any) {
-    this.hubConnection.on('ReceiveIceCandidate', (candidate) => {
-      callback(JSON.parse(candidate));
+  onReceiveIceCandidate(callback: (fromConnectionId: string, candidate: any) => void) {
+    this.hubConnection.on('ReceiveIceCandidate', (fromConnectionId, candidate) => {
+      callback(fromConnectionId, JSON.parse(candidate));
     });
   }
 
@@ -87,6 +93,10 @@ export class SignalRService {
     this.hubConnection.on('UsersInRoom', (users) => {
       callback(users);
     });
+  }
+
+   onPeerLeft(callback: (connectionId: string) => void) {
+    this.hubConnection.on('PeerLeft', callback);
   }
 
   updateSpeaking(roomCode: string, userId: string, isSpeaking: boolean) {
@@ -123,11 +133,13 @@ export class SignalRService {
     this.hubConnection.invoke('StopMusic', roomCode);
   }
 
+  resumeMusic(roomCode: string) {
+    this.hubConnection.invoke('ResumeMusic', roomCode);
+  }
+
   notifySongEnded(roomCode: string, roomId: string, songId: string) {
     this.hubConnection.invoke('NotifySongEnded', roomCode, roomId, songId);
   }
-
- 
 
   onMusicPlay(
     callback: (data: {

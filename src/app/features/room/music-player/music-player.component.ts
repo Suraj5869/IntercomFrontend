@@ -107,6 +107,11 @@ export class MusicPlayerComponent implements OnInit {
     if (this.isPlaying) {
       this.signalR.pauseMusic(this.roomCode, audio.currentTime);
     }
+    else if (this.currentSongId) {
+      // Previously there was no else branch here, so clicking the button
+      // again after a pause did nothing — resume was never wired up.
+      this.signalR.resumeMusic(this.roomCode);
+    }
   }
 
   private handlePlay(data: { songId: string; songUrl: string; songName: string; startTime: string }) {
