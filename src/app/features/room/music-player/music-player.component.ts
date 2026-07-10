@@ -41,11 +41,23 @@ export class MusicPlayerComponent implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('userId') || '';
 
-    this.http
-      .get<Song[]>(`${this.api}/playlist/${this.roomId}`)
-      .subscribe((songs) => (this.playlist = songs));
+    // Merge instead of overwrite: if a PlaylistUpdated push (e.g. someone
+    // uploading right as we join) arrives before this GET resolves, a
+    // plain overwrite would silently drop that song from the list even
+    // though playback still works (handlePlay sets audio.src straight
+    // from the socket payload, independent of this array).
+    this.http.get<Song[]>(`${this.api}/playlist/${this.roomId}`).subscribe((songs) => {
+      const byId = new Map<string, Song>();
+      for (const s of songs) byId.set(s.id, s);
+      for (const s of this.playlist) byId.set(s.id, s); // keep anything pushed in the meantime
+      this.playlist = Array.from(byId.values());
+    });
 
-    this.signalR.onPlaylistUpdated((song: Song) => this.playlist.push(song));
+    this.signalR.onPlaylistUpdated((song: Song) => {
+      if (!this.playlist.some((s) => s.id === song.id)) {
+        this.playlist.push(song);
+      }
+    });
 
     this.signalR.onPlaylistSongRemoved((songId: string) => {
       this.playlist = this.playlist.filter((s) => s.id !== songId);
@@ -53,6 +65,7 @@ export class MusicPlayerComponent implements OnInit {
 
     this.signalR.onMusicPlay((data) => this.handlePlay(data));
     this.signalR.onMusicPause((position: number) => this.handlePause(position));
+    this.signalR.onMusicSyncPaused((data) => this.handleSyncPaused(data));
     this.signalR.onMusicStop(() => this.handleStop());
 
     this.signalR.onMusicError((message: string) => {
@@ -106,8 +119,7 @@ export class MusicPlayerComponent implements OnInit {
     const audio = this.audioEl.nativeElement;
     if (this.isPlaying) {
       this.signalR.pauseMusic(this.roomCode, audio.currentTime);
-    }
-    else if (this.currentSongId) {
+    } else if (this.currentSongId) {
       // Previously there was no else branch here, so clicking the button
       // again after a pause did nothing — resume was never wired up.
       this.signalR.resumeMusic(this.roomCode);
@@ -153,6 +165,20 @@ export class MusicPlayerComponent implements OnInit {
         audio.currentTime = expected;
       }
     }, 3000);
+  }
+
+  // Fired instead of MusicPlay when a client joins/refreshes into a room
+  // whose music is currently paused — sets the song and position for the
+  // UI (so it shows the right paused track) without calling play().
+  private handleSyncPaused(data: { songId: string; songUrl: string; songName: string; position: number }) {
+    const audio = this.audioEl.nativeElement;
+    audio.src = data.songUrl;
+    audio.currentTime = data.position;
+    this.currentSongId = data.songId;
+    this.isPlaying = false;
+    audio.onended = () => {
+      this.signalR.notifySongEnded(this.roomCode, this.roomId, data.songId);
+    };
   }
 
   private handlePause(position: number) {
