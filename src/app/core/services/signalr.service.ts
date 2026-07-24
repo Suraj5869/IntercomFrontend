@@ -1,6 +1,8 @@
 import * as signalR from '@microsoft/signalr';
 import { Injectable } from '@angular/core';
 import { ChatMessage } from '../models/ChatMessage';
+import { RiderLocation } from '../models/RideLocation';
+import { DestinationPoint } from '../models/DestinationPoint';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,7 @@ export class SignalRService {
   private hubConnection!: signalR.HubConnection;
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://intercombackend-5h0c.onrender.com/rideHub', {
+      .withUrl('https://localhost:7282/rideHub', {
         accessTokenFactory: () => localStorage.getItem('token') || '',
       }) // your API URL
       .withAutomaticReconnect()
@@ -172,5 +174,79 @@ export class SignalRService {
 
   onMusicError(callback: (message: string) => void) {
     this.hubConnection.on('MusicError', callback);
+  }
+
+  // --- Live location / destination (map feature) ---
+
+  // Creator-only — the hub re-checks this server-side via the JWT claim,
+  // so this call will be rejected (LocationError) if invoked by anyone else.
+  setDestination(roomCode: string, lat: number, lng: number, label: string) {
+    this.hubConnection.invoke('SetDestination', roomCode, lat, lng, label);
+  }
+
+  // Throttle calls to this on the CALLER's side (e.g. every 8-10s or on
+  // ~20m movement) — the hub broadcasts on every invoke with no throttling
+  // of its own.
+   updateLocation(
+    roomCode: string,
+    userId: string,
+    userName: string,
+    lat: number,
+    lng: number,
+    etaMinutes: number | null,
+  ) {
+    this.hubConnection.invoke('UpdateLocation', roomCode, userId, userName, lat, lng, etaMinutes);
+  }
+
+  stopSharingLocation(roomCode: string) {
+    this.hubConnection.invoke('StopSharingLocation', roomCode);
+  }
+
+    // Any rider can propose/clear a meeting point — no creator restriction,
+  // unlike setDestination.
+  addStop(roomCode: string, lat: number, lng: number, label: string) {
+    this.hubConnection.invoke('AddStop', roomCode, lat, lng, label);
+  }
+
+  clearStop(roomCode: string) {
+    this.hubConnection.invoke('ClearStop', roomCode);
+  }
+
+  onStopSet(callback: (stop: DestinationPoint) => void) {
+    this.hubConnection.on('StopSet', callback);
+  }
+
+  onStopCleared(callback: () => void) {
+    this.hubConnection.on('StopCleared', callback);
+  }
+
+   // Call this once the map UI actually mounts — it may have missed the
+  // one-time push JoinRoom sends, if the map tab wasn't open yet when the
+  // room was first joined.
+  requestMapState(roomCode: string) {
+    this.hubConnection.invoke('RequestMapState', roomCode);
+  }
+
+  onDestinationSet(callback: (destination: DestinationPoint) => void) {
+    this.hubConnection.on('DestinationSet', callback);
+  }
+
+  onLocationUpdated(callback: (location: RiderLocation) => void) {
+    this.hubConnection.on('LocationUpdated', callback);
+  }
+
+  onLocationRemoved(callback: (connectionId: string) => void) {
+    this.hubConnection.on('LocationRemoved', callback);
+  }
+
+  // Sent once to a client right after it joins, with everyone's last known
+  // location at that point (mirrors how MusicPlay/MusicSyncPaused sync
+  // late joiners).
+  onAllLocations(callback: (locations: RiderLocation[]) => void) {
+    this.hubConnection.on('AllLocations', callback);
+  }
+
+  onLocationError(callback: (message: string) => void) {
+    this.hubConnection.on('LocationError', callback);
   }
 }

@@ -12,6 +12,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ToastComponent } from './features/toast/toast.component';
 import { AuthInterceptor } from './core/Interceptor/AuthInterceptor';
 import { MusicPlayerComponent } from './features/room/music-player/music-player.component';
+import { RoomMapComponent } from './features/room/room-map/room-map.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MusicPlayerComponent } from './features/room/music-player/music-player.
     RoomComponent,
     DashboardComponent,
     ToastComponent,
-    MusicPlayerComponent
+    MusicPlayerComponent,
+    RoomMapComponent
   ],
   imports: [
     BrowserModule,

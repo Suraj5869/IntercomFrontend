@@ -21,6 +21,15 @@
 
 .room-body{display:flex; flex:1; flex-wrap:wrap;}
 .chat-col{flex:2; min-width:320px; display:flex; flex-direction:column; padding:24px 28px; border-right:1px solid var(--border);}
+
+.tab-switcher{display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid var(--border);}
+.tab-btn{
+  padding:10px 18px; border:none; background:transparent; color:var(--text-tertiary);
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+  cursor:pointer; border-bottom:2px solid transparent; transition:.15s;
+}
+.tab-btn:hover{color:var(--text-secondary);}
+.tab-btn.active{color:var(--amber); border-bottom-color:var(--amber);}
 .chat-log{flex:1; min-height:280px; background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; padding:20px; display:flex; flex-direction:column; gap:12px; position:relative; overflow-y:auto;}
 .chat-log:empty::before{
   content:'NO TRANSMISSIONS YET'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);

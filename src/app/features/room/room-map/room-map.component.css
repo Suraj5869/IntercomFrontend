@@ -1,0 +1,196 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 280px;
+}
+
+.map-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.destination-search {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg-input-solid);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--amber);
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--bg-card);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.search-result-row {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-result-row:last-child {
+  border-bottom: none;
+}
+
+.search-result-row:hover {
+  background: var(--bg-input-solid);
+  color: var(--text-primary);
+}
+
+.search-status {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.destination-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stop-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-start-ride {
+  padding: 9px 18px;
+  border-radius: 3px;
+  border: none;
+  background: var(--amber);
+  color: #1a1400;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn-start-ride:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-start-ride:disabled {
+  background: var(--bg-input-solid);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  border: 1px solid var(--border);
+}
+
+.btn-map-action {
+  padding: 9px 16px;
+  border-radius: 3px;
+  border: 1px solid var(--border-bright);
+  background: var(--bg-input-solid);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn-map-action:hover {
+  border-color: var(--amber);
+  color: var(--text-primary);
+}
+
+.btn-map-action.active {
+  border-color: var(--amber);
+  background: var(--amber);
+  color: #1a1400;
+  font-weight: 700;
+}
+
+.map-canvas {
+  flex: 1;
+  min-height: 320px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+::ng-deep .leaflet-popup-content-wrapper {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+}
+
+::ng-deep .leaflet-popup-tip {
+  background: var(--bg-card);
+}
+
+::ng-deep .leaflet-control-zoom a {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+::ng-deep .leaflet-control-zoom a:hover {
+  background: var(--bg-input-solid);
+  color: var(--amber);
+}
+
+/* Tint the default blue Leaflet marker per pin type so destination,
+   stop, and plain rider markers read as visually distinct at a glance. */
+::ng-deep .destination-marker-icon {
+  filter: hue-rotate(320deg) saturate(1.6);
+}
+
+::ng-deep .stop-marker-icon {
+  filter: hue-rotate(100deg) saturate(1.4);
+}
+
+/* Permanent per-rider ETA label floating above each marker. */
+::ng-deep .eta-tooltip {
+  background: var(--bg-card);
+  color: var(--amber);
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  box-shadow: none;
+}
+
+::ng-deep .eta-tooltip::before {
+  border-top-color: var(--border-bright);
+}

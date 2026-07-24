@@ -1,0 +1,93 @@
+<div class="map-toolbar">
+  <div *ngIf="isCreator" class="destination-search">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search destination address…"
+      [value]="destinationQuery"
+      (input)="onDestinationQueryChange($any($event.target).value)"
+    />
+
+    <div *ngIf="searchResults.length > 0" class="search-results">
+      <div
+        *ngFor="let result of searchResults"
+        class="search-result-row"
+        (click)="selectSearchResult(result)"
+      >
+        {{ result.display_name }}
+      </div>
+    </div>
+
+    <div *ngIf="isSearching" class="search-status">Searching…</div>
+  </div>
+
+  <div *ngIf="isCreator" class="destination-actions">
+    <button
+      class="btn-map-action"
+      [class.active]="isPlacingDestination"
+      (click)="toggleDestinationPlacement()"
+    >
+      {{ isPlacingDestination ? 'Tap map to place pin…' : '📍 Or Tap Map' }}
+    </button>
+
+    <button
+      class="btn-start-ride"
+      [disabled]="!pendingDestination"
+      (click)="startRide()"
+    >
+      🏁 Start Ride
+    </button>
+
+    <button
+      *ngIf="pendingDestination"
+      class="btn-map-action"
+      (click)="cancelPendingDestination()"
+    >
+      Cancel
+    </button>
+  </div>
+
+  <div class="stop-actions">
+    <button
+      class="btn-map-action"
+      [class.active]="isPlacingStop"
+      (click)="toggleStopPlacement()"
+    >
+      {{ isPlacingStop ? 'Tap map to drop meeting point…' : '🚩 Add Stop' }}
+    </button>
+
+    <button
+      *ngIf="pendingStop"
+      class="btn-start-ride"
+      (click)="confirmStop()"
+    >
+      Confirm Stop
+    </button>
+
+    <button
+      *ngIf="pendingStop"
+      class="btn-map-action"
+      (click)="cancelPendingStop()"
+    >
+      Cancel
+    </button>
+
+    <button
+      *ngIf="stop && !pendingStop"
+      class="btn-map-action"
+      (click)="clearStop()"
+    >
+      ✕ Clear Stop
+    </button>
+  </div>
+
+  <button
+    class="btn-map-action"
+    [class.active]="isSharingLocation"
+    (click)="toggleShareLocation()"
+  >
+    {{ isSharingLocation ? '🟢 Sharing Location' : '⚪ Share My Location' }}
+  </button>
+</div>
+
+<div #mapEl class="map-canvas"></div>

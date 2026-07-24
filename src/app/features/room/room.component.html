@@ -24,26 +24,53 @@
     
   <div class="room-body">
     <div class="chat-col">
-      <div class="chat-log" id="chat-log">
-        <div *ngFor="let msg of messages" class="message">
-           <div class="chat-msg" [class.outgoing]="msg.isMine" [class.incoming]="!msg.isMine">
-          <span class="msg-sender">{{ msg.senderName }}</span>
-          <div class="msg-bubble">{{ msg.message }}</div>
-        </div>
-        </div>
-      </div>
-      <div class="msg-bar">
-        <input
-          type="text"
-          id="msg-input"
-          placeholder="Type message..."
-          [(ngModel)]="message"
-          name="message"
-        />
-        <button class="send-btn" id="send-btn" (click)="sendMessage()">
-          Send
+      <div class="tab-switcher">
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'chat'"
+          (click)="activeTab = 'chat'"
+        >
+          Chat
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'map'"
+          (click)="activeTab = 'map'"
+        >
+          Map
         </button>
       </div>
+
+      <ng-container *ngIf="activeTab === 'chat'">
+        <div class="chat-log" id="chat-log">
+          <div *ngFor="let msg of messages" class="message">
+             <div class="chat-msg" [class.outgoing]="msg.isMine" [class.incoming]="!msg.isMine">
+            <span class="msg-sender">{{ msg.senderName }}</span>
+            <div class="msg-bubble">{{ msg.message }}</div>
+          </div>
+          </div>
+        </div>
+        <div class="msg-bar">
+          <input
+            type="text"
+            id="msg-input"
+            placeholder="Type message..."
+            [(ngModel)]="message"
+            name="message"
+          />
+          <button class="send-btn" id="send-btn" (click)="sendMessage()">
+            Send
+          </button>
+        </div>
+      </ng-container>
+
+      <app-room-map
+        *ngIf="activeTab === 'map'"
+        [roomCode]="roomCode"
+        [userId]="userId"
+        [userName]="userName"
+        [isCreator]="isCreator"
+      ></app-room-map>
     </div>
 
     <div class="side-col">

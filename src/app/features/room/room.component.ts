@@ -36,6 +36,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   messages: ChatMessage[] = [];
   createRoomCode: string = '';
   userId: string = '';
+  userName: string = '';
   localStream!: MediaStream;
   isMicOn: boolean = false;
 
@@ -63,6 +64,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   isCreator: boolean = false;
   api = `${environment.apiUrl}/Room`;
 
+  activeTab: 'chat' | 'map' = 'chat';
+
   private readonly iceServers: RTCIceServer[] = [
     { urls: 'stun:stun.l.google.com:19302' },
   ];
@@ -78,6 +81,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.roomId = localStorage.getItem('roomId') || '';
     this.roomCode = localStorage.getItem('roomCode') || '';
     this.userId = localStorage.getItem('userId') || '';
+    this.userName = localStorage.getItem('userName') || '';
     this.isCreator = localStorage.getItem('roomCreatedBy') === this.userId;
 
     this.pttBtn = document.getElementById('ptt-btn');
