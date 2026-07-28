@@ -197,18 +197,23 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   private readonly ROUTE_MIN_DISTANCE_M = 100;
 
   get navRemainingMeters(): number {
-  return Math.max(0, this.navTotalMeters - (this.routeCum[this.progressIndex] ?? 0));
-}
+    return Math.max(
+      0,
+      this.navTotalMeters - (this.routeCum[this.progressIndex] ?? 0),
+    );
+  }
 
-get navNextStep(): NavStep | null {
-  const done = this.routeCum[this.progressIndex] ?? 0;
-  return this.routeSteps.find((s) => s.atMeters > done + 10) ?? null;
-}
+  get navNextStep(): NavStep | null {
+    const done = this.routeCum[this.progressIndex] ?? 0;
+    return this.routeSteps.find((s) => s.atMeters > done + 10) ?? null;
+  }
 
-get navDistanceToNext(): number {
-  const step = this.navNextStep;
-  return step ? Math.max(0, step.atMeters - (this.routeCum[this.progressIndex] ?? 0)) : 0;
-}
+  get navDistanceToNext(): number {
+    const step = this.navNextStep;
+    return step
+      ? Math.max(0, step.atMeters - (this.routeCum[this.progressIndex] ?? 0))
+      : 0;
+  }
 
   constructor(
     private signalR: SignalRService,
@@ -697,8 +702,8 @@ get navDistanceToNext(): number {
     }
 
     if (this.routeCoords.length) {
-  this.updateProgress(L.latLng(lat, lng));
-}
+      this.updateProgress(L.latLng(lat, lng));
+    }
 
     // Keep my own route/ETA current as I move, independent of the
     // location-broadcast throttle above (routing recompute has its own,
@@ -854,10 +859,10 @@ get navDistanceToNext(): number {
 
   private clearMyRoute() {
     this.routeCoords = [];
-this.routeCum = [];
-this.routeSteps = [];
-this.navTotalMeters = 0;
-this.progressIndex = 0;
+    this.routeCum = [];
+    this.routeSteps = [];
+    this.navTotalMeters = 0;
+    this.progressIndex = 0;
     if (this.myRouteLine) {
       this.map.removeLayer(this.myRouteLine);
       this.myRouteLine = null;
@@ -979,8 +984,12 @@ this.progressIndex = 0;
         color,
         weight: 5,
         opacity: 0.85,
-      }).addTo(this.map).bindTooltip(() => `${this.formatDistance(this.navRemainingMeters)} remaining`,
-        { sticky: true, className: 'route-tooltip' });;
+      })
+        .addTo(this.map)
+        .bindTooltip(
+          () => `${this.formatDistance(this.navRemainingMeters)} remaining`,
+          { sticky: true, className: 'route-tooltip' },
+        );
     }
     this.map.fitBounds(this.myRouteLine.getBounds(), { padding: [40, 40] });
   }
