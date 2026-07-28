@@ -81,6 +81,16 @@
     </button>
   </div>
 
+  <div class="mode-toggle">
+  <button
+    *ngFor="let m of travelModeOptions"
+    class="btn-map-action"
+    [class.active]="travelMode === m.key"
+    (click)="setTravelMode(m.key)"
+  >
+    {{ m.icon }} {{ m.label }}
+  </button>
+</div>
   <button
     class="btn-map-action"
     [class.active]="isSharingLocation"
@@ -90,4 +100,20 @@
   </button>
 </div>
 
-<div #mapEl class="map-canvas"></div>
+<div #mapEl class="map-canvas">
+  <div class="nav-panel" *ngIf="navNextStep as step">
+  <div class="nav-primary">
+    <span class="nav-arrow">{{ step.icon }}</span>
+    <div class="nav-text">
+      <div class="nav-instruction">{{ step.instruction }}</div>
+      <div class="nav-road" *ngIf="step.roadName">onto {{ step.roadName }}</div>
+    </div>
+    <span class="nav-next-dist">{{ formatDistance(navDistanceToNext) }}</span>
+  </div>
+  <div class="nav-summary">
+    {{ formatDistance(navRemainingMeters) }} to destination
+    <span *ngIf="myEtaMinutes !== null"> · {{ formatEta(myEtaMinutes) }}</span>
+  </div>
+</div>
+</div>
+

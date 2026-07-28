@@ -12,7 +12,7 @@ export class SignalRService {
   private hubConnection!: signalR.HubConnection;
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7282/rideHub', {
+      .withUrl('https://intercombackend-5h0c.onrender.com/rideHub', {
         accessTokenFactory: () => localStorage.getItem('token') || '',
       }) // your API URL
       .withAutomaticReconnect()
@@ -194,8 +194,9 @@ export class SignalRService {
     lat: number,
     lng: number,
     etaMinutes: number | null,
+    travelMode: 'car' | 'bike'
   ) {
-    this.hubConnection.invoke('UpdateLocation', roomCode, userId, userName, lat, lng, etaMinutes);
+    this.hubConnection.invoke('UpdateLocation', roomCode, userId, userName, lat, lng, etaMinutes, travelMode);
   }
 
   stopSharingLocation(roomCode: string) {

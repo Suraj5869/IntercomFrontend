@@ -194,3 +194,40 @@
 ::ng-deep .eta-tooltip::before {
   border-top-color: var(--border-bright);
 }
+
+::ng-deep .rider-node { background: none; border: none; }
+
+::ng-deep .rider-pin {
+  position: absolute; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+
+::ng-deep .rider-label {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 20px; white-space: nowrap;
+  display: flex; gap: 6px; align-items: baseline;
+  padding: 2px 8px; border-radius: 10px;
+  background: rgba(20,20,24,.88); border: 1px solid;
+  font-size: 12px; color: #fff;
+}
+::ng-deep .rider-label b { font-weight: 500; }
+::ng-deep .rider-label i { font-style: normal; opacity: .75; }
+
+::ng-deep .route-tooltip {
+  background: rgba(20,20,24,.9); border: none; color: #fff;
+  font-size: 12px; padding: 3px 8px;
+}
+::ng-deep .route-tooltip::before { display: none; }
+
+.nav-panel {
+  position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 500;
+  background: rgba(20,20,24,.92); color: #fff; border-radius: 12px;
+  padding: 10px 12px; backdrop-filter: blur(6px);
+}
+.nav-primary { display: flex; align-items: center; gap: 12px; }
+.nav-arrow { font-size: 24px; line-height: 1; color: #ffb020; }
+.nav-text { flex: 1; min-width: 0; }
+.nav-instruction { font-size: 15px; }
+.nav-road { font-size: 12px; opacity: .7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-next-dist { font-size: 17px; font-variant-numeric: tabular-nums; }
+.nav-summary { margin-top: 6px; font-size: 12px; opacity: .7; }

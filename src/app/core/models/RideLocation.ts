@@ -12,5 +12,7 @@ export interface RiderLocation {
 
   etaMinutes: number | null;
 
+  travelMode: 'car' | 'bike' | null;
+
   updatedAt: string;
 }
