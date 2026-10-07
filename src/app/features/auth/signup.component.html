@@ -44,7 +44,10 @@
             </button>
           </div>
         </div>
-        <button type="submit" class="btn-primary">Create Account →</button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          <span class="button-content" *ngIf="!isLoading">Create Account →</span>
+          <span class="button-loading" *ngIf="isLoading"><span class="button-spinner" aria-hidden="true"></span>Creating account...</span>
+        </button>
       </form>
       <div class="foot-link">Already have an account? <a routerLink="/login">Login</a></div>
     </div>
