@@ -63,3 +63,12 @@
   .login-hero{border-right:none; border-bottom:1px solid var(--border); padding:44px 28px;}
   .hero-stats{flex-wrap:wrap; gap:24px;}
 }
+/* Authentication controls */
+.password-wrapper{position:relative!important;width:100%!important;display:block!important}
+.password-wrapper input{padding-right:52px!important}
+.password-toggle{position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;z-index:5!important;width:38px!important;height:38px!important;padding:0!important;margin:0!important;border:1px solid var(--border)!important;border-radius:3px!important;background:var(--bg-card)!important;color:var(--line-cream)!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;opacity:1!important;visibility:visible!important}
+.password-toggle svg{width:20px!important;height:20px!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+.password-toggle:hover{color:var(--amber)!important;border-color:var(--amber)!important}
+.forgot-link{display:block!important;text-align:right!important;margin:-4px 0 16px!important;visibility:visible!important;opacity:1!important}
+.forgot-link a{display:inline-block!important;color:var(--amber)!important;text-decoration:none!important;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;cursor:pointer;visibility:visible!important;opacity:1!important}
+.forgot-link a:hover{text-decoration:underline!important;color:var(--line-cream)!important}
