@@ -1,7 +1,7 @@
 <nav class="gear-nav">
   <a class="brand"><span class="dot"></span> Rider Intercom</a>
 </nav>
- 
+
 <section class="login-screen">
   <div class="login-hero">
     <svg class="route" viewBox="0 0 600 800" preserveAspectRatio="none">
@@ -21,12 +21,12 @@
       <div class="hero-stat"><b>&lt;80ms</b><span>Voice Latency</span></div>
     </div>
   </div>
- 
+
   <div class="login-formside">
     <div class="console">
       <h2>Sign Up</h2>
       <p class="tag">Create an account to continue your route</p>
-      <form id="login-form">
+      <form id="signup-form" (ngSubmit)="signup()">
         <div class="field">
           <label for="name">Name</label>
           <input id="name" type="text" name="name" placeholder="Your Name" [(ngModel)]="name" required>
@@ -36,10 +36,15 @@
           <input id="email" type="email" name="email" placeholder="you@ridermail.com" [(ngModel)]="email" required>
         </div>
         <div class="field">
-          <label for="password">Password</label>
-          <input id="password" type="password" name="password" placeholder="••••••••••" [(ngModel)]="password" required>
+          <label for="signup-password">Password</label>
+          <div class="password-wrapper">
+            <input id="signup-password" [type]="showPassword ? 'text' : 'password'" name="password" placeholder="••••••••••" [(ngModel)]="password" required>
+            <button type="button" class="password-toggle" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              {{ showPassword ? '◉' : '◌' }}
+            </button>
+          </div>
         </div>
-        <button type="button" class="btn-primary" (click)="signup()">Create Account →</button>
+        <button type="submit" class="btn-primary">Create Account →</button>
       </form>
       <div class="foot-link">Already have an account? <a routerLink="/login">Login</a></div>
     </div>
