@@ -12,6 +12,7 @@ export class LoginComponent {
   email = '';
   password = '';
   showPassword = false;
+  isLoading = false;
 
   constructor(
     readonly auth: AuthService,
@@ -21,6 +22,10 @@ export class LoginComponent {
   ) {}
 
   login() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: (res: any) => {
         this.auth.saveToken(res.token);
@@ -30,10 +35,12 @@ export class LoginComponent {
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
         this.router.navigateByUrl(returnUrl || '/dashboard');
         this.toast.showToast({ type: 'success', message: 'Login successful 🎉' });
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Login failed', err);
         this.toast.showToast({ type: 'error', message: 'Invalid credentials' });
+        this.isLoading = false;
       },
     });
   }
