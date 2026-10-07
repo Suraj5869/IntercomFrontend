@@ -1,7 +1,7 @@
 <nav class="gear-nav">
   <a class="brand"><span class="dot"></span> Rider Intercom</a>
 </nav>
- 
+
 <section class="login-screen">
   <div class="login-hero">
     <svg class="route" viewBox="0 0 600 800" preserveAspectRatio="none">
@@ -21,21 +21,27 @@
       <div class="hero-stat"><b>&lt;80ms</b><span>Voice Latency</span></div>
     </div>
   </div>
- 
+
   <div class="login-formside">
     <div class="console">
       <h2>Sign In</h2>
       <p class="tag">Login to continue your route</p>
-      <form id="login-form">
+      <form id="login-form" (ngSubmit)="login()">
         <div class="field">
           <label for="email">Email</label>
           <input id="email" type="email" name="email" placeholder="you@ridermail.com" [(ngModel)]="email" required>
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input id="password" type="password" name="password" placeholder="••••••••••" [(ngModel)]="password" required>
+          <div class="password-wrapper">
+            <input id="password" [type]="showPassword ? 'text' : 'password'" name="password" placeholder="••••••••••" [(ngModel)]="password" required>
+            <button type="button" class="password-toggle" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              {{ showPassword ? '◉' : '◌' }}
+            </button>
+          </div>
         </div>
-        <button type="button" class="btn-primary" (click)="login()">Start Riding →</button>
+        <div class="forgot-link"><a routerLink="/forgot-password">Forgot password?</a></div>
+        <button type="submit" class="btn-primary">Start Riding →</button>
       </form>
       <div class="foot-link">New to the pack? <a routerLink="/signup">Create an account</a></div>
     </div>
