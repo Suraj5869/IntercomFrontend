@@ -41,7 +41,10 @@
           </div>
         </div>
         <div class="forgot-link"><a routerLink="/forgot-password">Forgot password?</a></div>
-        <button type="submit" class="btn-primary">Start Riding →</button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          <span class="button-content" *ngIf="!isLoading">Start Riding →</span>
+          <span class="button-loading" *ngIf="isLoading"><span class="button-spinner" aria-hidden="true"></span>Signing in...</span>
+        </button>
       </form>
       <div class="foot-link">New to the pack? <a routerLink="/signup">Create an account</a></div>
     </div>
