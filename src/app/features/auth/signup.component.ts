@@ -13,18 +13,25 @@ export class SignupComponent {
   email = '';
   password = '';
   showPassword = false;
+  isLoading = false;
 
   constructor(readonly auth: AuthService, readonly router: Router, readonly toast: ToastService) {}
 
   signup() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
     this.auth.signup({ name: this.name, email: this.email, password: this.password }).subscribe({
       next: () => {
         this.toast.showToast({ type: 'success', message: 'Signup successful 🎉' });
+        this.isLoading = false;
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error(err);
         this.toast.showToast({ type: 'error', message: 'Signup failed' });
+        this.isLoading = false;
       }
     });
   }
