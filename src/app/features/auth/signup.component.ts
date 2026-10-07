@@ -9,21 +9,15 @@ import { ToastService } from 'src/app/core/services/toast.service';
   styleUrls: ['./login.component.css']
 })
 export class SignupComponent {
-
-  name: string = '';
-  email: string = '';
-  password: string = '';
+  name = '';
+  email = '';
+  password = '';
+  showPassword = false;
 
   constructor(readonly auth: AuthService, readonly router: Router, readonly toast: ToastService) {}
 
   signup() {
-    const payload = {
-      name: this.name,
-      email: this.email,
-      password: this.password
-    };
-
-    this.auth.signup(payload).subscribe({
+    this.auth.signup({ name: this.name, email: this.email, password: this.password }).subscribe({
       next: () => {
         this.toast.showToast({ type: 'success', message: 'Signup successful 🎉' });
         this.router.navigate(['/login']);
