@@ -72,3 +72,10 @@
 .forgot-link{display:block!important;text-align:right!important;margin:-4px 0 16px!important;visibility:visible!important;opacity:1!important}
 .forgot-link a{display:inline-block!important;color:var(--amber)!important;text-decoration:none!important;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;cursor:pointer;visibility:visible!important;opacity:1!important}
 .forgot-link a:hover{text-decoration:underline!important;color:var(--line-cream)!important}
+
+
+/* Authentication button loading state */
+.btn-primary:disabled{opacity:.78!important;cursor:not-allowed!important;transform:none!important}
+.button-content,.button-loading{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.button-spinner{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;display:inline-block;animation:auth-button-spin .7s linear infinite}
+@keyframes auth-button-spin{to{transform:rotate(360deg)}}
