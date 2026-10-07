@@ -10,15 +10,19 @@ import { ToastService } from 'src/app/core/services/toast.service';
 export class ForgotPasswordComponent {
   email = '';
   submitted = false;
+  isLoading = false;
 
   constructor(readonly auth: AuthService, readonly toast: ToastService) {}
 
   submit() {
-    if (!this.email.trim()) return;
+    if (!this.email.trim() || this.isLoading) return;
+
+    this.isLoading = true;
 
     this.auth.forgotPassword(this.email.trim()).subscribe({
       next: () => {
         this.submitted = true;
+        this.isLoading = false;
         this.toast.showToast({
           type: 'success',
           message: 'If an account exists, a reset link has been sent.'
@@ -26,6 +30,7 @@ export class ForgotPasswordComponent {
       },
       error: (err) => {
         console.error('Forgot password failed', err);
+        this.isLoading = false;
         this.toast.showToast({
           type: 'error',
           message: 'Unable to process the request. Please try again.'
