@@ -2,44 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   readonly baseUrl = `${environment.apiUrl}/Auth`;
 
   constructor(readonly http: HttpClient) {}
 
-  signup(data: any) {
-    return this.http.post(`${this.baseUrl}/signup`, data);
-  }
-
-  login(data: any) {
-    return this.http.post(`${this.baseUrl}/login`, data);
-  }
+  signup(data: any) { return this.http.post(`${this.baseUrl}/signup`, data); }
+  login(data: any) { return this.http.post(`${this.baseUrl}/login`, data); }
 
   forgotPassword(email: string) {
     return this.http.post(`${this.baseUrl}/forgot-password`, { email });
   }
 
   resetPassword(token: string, newPassword: string) {
-    return this.http.post(`${this.baseUrl}/reset-password`, {
-      token,
-      newPassword
-    });
+    return this.http.post(`${this.baseUrl}/reset-password`, { token, newPassword });
   }
 
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
-  }
-
-  isLoggedIn() {
-    return !!this.getToken();
-  }
+  saveToken(token: string) { localStorage.setItem('token', token); }
+  getToken() { return localStorage.getItem('token'); }
+  isLoggedIn() { return !!this.getToken(); }
 
   logout() {
     localStorage.removeItem('token');
