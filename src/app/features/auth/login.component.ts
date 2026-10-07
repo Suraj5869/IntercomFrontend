@@ -11,6 +11,7 @@ import { ToastService } from 'src/app/core/services/toast.service';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  showPassword = false;
 
   constructor(
     readonly auth: AuthService,
@@ -25,33 +26,26 @@ export class LoginComponent {
       password: this.password,
     };
 
-   this.auth.login(payload).subscribe({
-  next: (res: any) => {
+    this.auth.login(payload).subscribe({
+      next: (res: any) => {
+        this.auth.saveToken(res.token);
+        localStorage.setItem('userId', res.userId);
+        localStorage.setItem('userName', res.name);
 
-    console.log('Login success', res);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
-    // 🔥 SAVE TOKEN FIRST
-    this.auth.saveToken(res.token);
+        if (returnUrl) {
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
 
-    // store user info
-    localStorage.setItem('userId', res.userId);
-    localStorage.setItem('userName', res.name);
-
-    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-
-    if (returnUrl) {
-      this.router.navigateByUrl(returnUrl);
-    } else {
-      this.router.navigate(['/dashboard']);
-    }
-
-    this.toast.showToast({ type: 'success', message: 'Login successful 🎉' });
-  },
-
-  error: (err) => {
-    console.error('Login failed', err);
-    this.toast.showToast({ type: 'error', message: 'Invalid credentials' });
-  },
-});
+        this.toast.showToast({ type: 'success', message: 'Login successful 🎉' });
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        this.toast.showToast({ type: 'error', message: 'Invalid credentials' });
+      },
+    });
   }
 }
