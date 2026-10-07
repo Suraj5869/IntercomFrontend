@@ -18,6 +18,17 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/login`, data);
   }
 
+  forgotPassword(email: string) {
+    return this.http.post(`${this.baseUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post(`${this.baseUrl}/reset-password`, {
+      token,
+      newPassword
+    });
+  }
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
   }
@@ -31,10 +42,9 @@ export class AuthService {
   }
 
   logout() {
-localStorage.removeItem('token');
-  localStorage.removeItem('userId');
-  localStorage.removeItem('user');
-      localStorage.removeItem('userName');
-
-}
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userName');
+  }
 }
