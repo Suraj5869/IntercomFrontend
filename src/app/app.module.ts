@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './features/auth/login.component';
 import { SignupComponent } from './features/auth/signup.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password.component';
 import { RoomComponent } from './features/room/room.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
@@ -19,6 +21,8 @@ import { RoomMapComponent } from './features/room/room-map/room-map.component';
     AppComponent,
     LoginComponent,
     SignupComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
     RoomComponent,
     DashboardComponent,
     ToastComponent,
@@ -31,8 +35,9 @@ import { RoomMapComponent } from './features/room/room-map/room-map.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
