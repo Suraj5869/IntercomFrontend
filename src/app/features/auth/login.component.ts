@@ -9,8 +9,8 @@ import { ToastService } from 'src/app/core/services/toast.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
   showPassword = false;
 
   constructor(
@@ -21,25 +21,14 @@ export class LoginComponent {
   ) {}
 
   login() {
-    const payload = {
-      email: this.email,
-      password: this.password,
-    };
-
-    this.auth.login(payload).subscribe({
+    this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: (res: any) => {
         this.auth.saveToken(res.token);
         localStorage.setItem('userId', res.userId);
         localStorage.setItem('userName', res.name);
 
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-
-        if (returnUrl) {
-          this.router.navigateByUrl(returnUrl);
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
-
+        this.router.navigateByUrl(returnUrl || '/dashboard');
         this.toast.showToast({ type: 'success', message: 'Login successful 🎉' });
       },
       error: (err) => {
