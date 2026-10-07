@@ -14,6 +14,7 @@ export class ResetPasswordComponent {
   confirmPassword = '';
   showPassword = false;
   showConfirmPassword = false;
+  isLoading = false;
 
   constructor(
     readonly route: ActivatedRoute,
@@ -25,6 +26,10 @@ export class ResetPasswordComponent {
   }
 
   submit() {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.token) {
       this.toast.showToast({ type: 'error', message: 'This password reset link is invalid.' });
       return;
@@ -40,12 +45,15 @@ export class ResetPasswordComponent {
       return;
     }
 
+    this.isLoading = true;
+
     this.auth.resetPassword(this.token, this.newPassword).subscribe({
       next: () => {
         this.toast.showToast({ type: 'success', message: 'Password reset successful. Please log in.' });
         this.router.navigate(['/login']);
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Reset password failed', err);
         this.toast.showToast({
           type: 'error',
