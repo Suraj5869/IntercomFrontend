@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login.component';
 import { RoomComponent } from './features/room/room.component';
 import { SignupComponent } from './features/auth/signup.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
 
@@ -10,8 +12,10 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'join/:roomCode', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'join/:roomCode', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'room', component: RoomComponent, canActivate: [AuthGuard] }
 ];
 
