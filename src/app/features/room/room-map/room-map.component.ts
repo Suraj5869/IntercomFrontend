@@ -932,6 +932,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
       this.mapService.route(
         { lat: fromLat, lng: fromLng },
         { lat: toLat, lng: toLng },
+        this.travelMode,
       ),
     );
 
