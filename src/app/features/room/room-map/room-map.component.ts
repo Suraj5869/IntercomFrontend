@@ -918,12 +918,15 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     fromLng: number,
     toLat: number,
     toLng: number,
-    mode: TravelMode,
   ): Promise<{
     coords: L.LatLngExpression[];
     durationSeconds: number;
     distanceMeters: number;
-    steps: OsrmStep[];
+    steps: RouteStep[];
+    trafficSegments: MapTrafficSegment[];
+    trafficDelaySeconds: number;
+    trafficLevel: 'unknown' | 'low' | 'moderate' | 'heavy' | 'severe';
+    trafficDataAvailable: boolean;
   }> {
     const cfg = TRAVEL_MODES[mode];
     const url =
