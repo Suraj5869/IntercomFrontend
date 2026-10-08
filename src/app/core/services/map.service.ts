@@ -67,12 +67,14 @@ export class MapService {
   route(
     from: MapCoordinate,
     to: MapCoordinate,
+    travelMode: 'car' | 'bike' = 'car',
   ): Observable<MapRouteResponse> {
     const params = new HttpParams()
       .set('fromLat', from.lat.toString())
       .set('fromLng', from.lng.toString())
       .set('toLat', to.lat.toString())
-      .set('toLng', to.lng.toString());
+      .set('toLng', to.lng.toString())
+      .set('travelMode', travelMode);
 
     return this.http.get<MapRouteResponse>(`${this.baseUrl}/route`, {
       params,
