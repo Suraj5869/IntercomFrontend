@@ -754,10 +754,17 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
         target.lat,
         target.lng,
       );
-      this.drawMyRoute(coords);
-      this.buildNavigation(coords, distanceMeters, steps);
+      this.drawMyRoute(route.coords, route.trafficSegments);
+      this.buildNavigation(
+        route.coords,
+        route.distanceMeters,
+        route.steps,
+      );
       this.updateProgress(L.latLng(myPos.lat, myPos.lng));
-      this.myEtaMinutes = durationSeconds / 60;
+      this.myEtaMinutes = route.durationSeconds / 60;
+      this.trafficLevel = route.trafficLevel;
+      this.trafficDelayMinutes = route.trafficDelaySeconds / 60;
+      this.trafficDataAvailable = route.trafficDataAvailable;
       this.lastRouteAt = Date.now();
       this.lastRoutePos = myPos;
 
