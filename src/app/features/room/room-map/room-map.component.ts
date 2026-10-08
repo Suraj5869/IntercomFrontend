@@ -849,7 +849,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     return best;
   }
 
-  private maneuverText(s: OsrmStep): { icon: string; instruction: string } {
+  private maneuverText(s: RouteStep): { icon: string; instruction: string } {
     const t = s.maneuver.type;
     const m = s.maneuver.modifier;
     if (t === 'depart') return { icon: '↑', instruction: 'Head out' };
