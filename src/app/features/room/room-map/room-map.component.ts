@@ -112,11 +112,11 @@ const TRAVEL_MODES: Record<
   },
 };
 
-interface NominatimResult {
+type NominatimResult = {
   display_name: string;
   lat: string;
   lon: string;
-}
+};
 
 @Component({
   selector: 'app-room-map',
