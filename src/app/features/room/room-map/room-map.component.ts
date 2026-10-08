@@ -939,12 +939,18 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
       (coordinate) =>
         [coordinate.lat, coordinate.lng] as L.LatLngExpression,
     );
-    return {
-      coords,
-      durationSeconds: data.routes[0].duration,
-      distanceMeters: data.routes[0].distance,
-      steps: data.routes[0].legs.flatMap((l: any) => l.steps) as OsrmStep[],
-    };
+    const steps: RouteStep[] = data.steps.map((step) => ({
+      distance: step.distance,
+      name: step.name,
+      maneuver: {
+        type: step.maneuverType,
+        modifier: step.modifier ?? undefined,
+        location: [
+          step.maneuverLocation.lng,
+          step.maneuverLocation.lat,
+        ],
+      },
+    }));
   }
 
   // private async fetchRoute(
