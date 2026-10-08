@@ -951,6 +951,17 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
         ],
       },
     }));
+    
+    return {
+      coords,
+      durationSeconds: data.durationSeconds,
+      distanceMeters: data.distanceMeters,
+      steps,
+      trafficSegments: data.trafficSegments,
+      trafficDelaySeconds: data.trafficDelaySeconds,
+      trafficLevel: data.trafficLevel,
+      trafficDataAvailable: data.trafficDataAvailable,
+    };
   }
 
   // private async fetchRoute(
