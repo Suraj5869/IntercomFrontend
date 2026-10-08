@@ -1,119 +1,169 @@
 <div class="map-toolbar">
-  <div *ngIf="isCreator" class="destination-search">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="Search destination address…"
-      [value]="destinationQuery"
-      (input)="onDestinationQueryChange($any($event.target).value)"
-    />
-
-    <div *ngIf="searchResults.length > 0" class="search-results">
-      <div
-        *ngFor="let result of searchResults"
-        class="search-result-row"
-        (click)="selectSearchResult(result)"
-      >
-        {{ result.display_name }}
+  <div *ngIf="isCreator" class="destination-section">
+    <div class="section-label">
+      <span>01</span>
+      <div>
+        <strong>Set destination</strong>
+        <small>Search an address or choose a point on the map</small>
       </div>
     </div>
 
-    <div *ngIf="isSearching" class="search-status">Searching…</div>
+    <div class="destination-row">
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search destination address…"
+          [value]="destinationQuery"
+          (input)="onDestinationQueryChange($any($event.target).value)"
+        />
+        <span *ngIf="isSearching" class="search-spinner" aria-hidden="true"></span>
+
+        <div *ngIf="searchResults.length > 0" class="search-results">
+          <div
+            *ngFor="let result of searchResults"
+            class="search-result-row"
+            (click)="selectSearchResult(result)"
+          >
+            <span class="result-pin">•</span>
+            <span>{{ result.display_name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn-map-action secondary"
+        [class.active]="isPlacingDestination"
+        (click)="toggleDestinationPlacement()"
+      >
+        <span class="button-icon">⌖</span>
+        <span>{{ isPlacingDestination ? 'Tap map…' : 'Choose on map' }}</span>
+      </button>
+    </div>
+
+    <div class="destination-confirm" *ngIf="pendingDestination">
+      <div class="selection-info">
+        <span class="selection-dot"></span>
+        <div>
+          <strong>Destination selected</strong>
+          <span>{{ pendingDestination.label }}</span>
+        </div>
+      </div>
+
+      <div class="selection-actions">
+        <button type="button" class="btn-text" (click)="cancelPendingDestination()">
+          Cancel
+        </button>
+        <button type="button" class="btn-start-ride" (click)="startRide()">
+          <span>▶</span>
+          Start ride
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="isCreator" class="destination-actions">
-    <button
-      class="btn-map-action"
-      [class.active]="isPlacingDestination"
-      (click)="toggleDestinationPlacement()"
-    >
-      {{ isPlacingDestination ? 'Tap map to place pin…' : '📍 Or Tap Map' }}
-    </button>
+  <div class="map-control-section">
+    <div class="section-label compact">
+      <span>02</span>
+      <div>
+        <strong>Ride controls</strong>
+        <small>Manage stops, vehicle and live location</small>
+      </div>
+    </div>
 
-    <button
-      class="btn-start-ride"
-      [disabled]="!pendingDestination"
-      (click)="startRide()"
-    >
-      🏁 Start Ride
-    </button>
+    <div class="control-grid">
+      <div class="control-group">
+        <span class="control-label">Meeting point</span>
+        <div class="button-group">
+          <button
+            type="button"
+            class="btn-map-action"
+            [class.active]="isPlacingStop"
+            (click)="toggleStopPlacement()"
+          >
+            <span class="button-icon">⚑</span>
+            <span>{{ isPlacingStop ? 'Tap map…' : 'Add stop' }}</span>
+          </button>
 
-    <button
-      *ngIf="pendingDestination"
-      class="btn-map-action"
-      (click)="cancelPendingDestination()"
-    >
-      Cancel
-    </button>
+          <button
+            *ngIf="pendingStop"
+            type="button"
+            class="btn-map-action confirm"
+            (click)="confirmStop()"
+          >
+            Confirm
+          </button>
+
+          <button
+            *ngIf="pendingStop"
+            type="button"
+            class="btn-map-action ghost"
+            (click)="cancelPendingStop()"
+          >
+            Cancel
+          </button>
+
+          <button
+            *ngIf="stop && !pendingStop"
+            type="button"
+            class="btn-map-action ghost"
+            (click)="clearStop()"
+          >
+            Clear stop
+          </button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Travel mode</span>
+        <div class="segmented-control">
+          <button
+            *ngFor="let m of travelModeOptions"
+            type="button"
+            [class.active]="travelMode === m.key"
+            (click)="setTravelMode(m.key)"
+          >
+            <span>{{ m.icon }}</span>
+            {{ m.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="control-group location-group">
+        <span class="control-label">Live location</span>
+        <button
+          type="button"
+          class="location-toggle"
+          [class.active]="isSharingLocation"
+          (click)="toggleShareLocation()"
+        >
+          <span class="location-indicator"></span>
+          <span>{{ isSharingLocation ? 'Location sharing on' : 'Share my location' }}</span>
+        </button>
+      </div>
+    </div>
   </div>
-
-  <div class="stop-actions">
-    <button
-      class="btn-map-action"
-      [class.active]="isPlacingStop"
-      (click)="toggleStopPlacement()"
-    >
-      {{ isPlacingStop ? 'Tap map to drop meeting point…' : '🚩 Add Stop' }}
-    </button>
-
-    <button
-      *ngIf="pendingStop"
-      class="btn-start-ride"
-      (click)="confirmStop()"
-    >
-      Confirm Stop
-    </button>
-
-    <button
-      *ngIf="pendingStop"
-      class="btn-map-action"
-      (click)="cancelPendingStop()"
-    >
-      Cancel
-    </button>
-
-    <button
-      *ngIf="stop && !pendingStop"
-      class="btn-map-action"
-      (click)="clearStop()"
-    >
-      ✕ Clear Stop
-    </button>
-  </div>
-
-  <div class="mode-toggle">
-  <button
-    *ngFor="let m of travelModeOptions"
-    class="btn-map-action"
-    [class.active]="travelMode === m.key"
-    (click)="setTravelMode(m.key)"
-  >
-    {{ m.icon }} {{ m.label }}
-  </button>
-</div>
-  <button
-    class="btn-map-action"
-    [class.active]="isSharingLocation"
-    (click)="toggleShareLocation()"
-  >
-    {{ isSharingLocation ? '🟢 Sharing Location' : '⚪ Share My Location' }}
-  </button>
 </div>
 
 <div #mapEl class="map-canvas">
-  <div class="nav-panel" *ngIf="navNextStep as step">
-  <div class="nav-primary">
-    <span class="nav-arrow">{{ step.icon }}</span>
-    <div class="nav-text">
-      <div class="nav-instruction">{{ step.instruction }}</div>
-      <div class="nav-road" *ngIf="step.roadName">onto {{ step.roadName }}</div>
-    </div>
-    <span class="nav-next-dist">{{ formatDistance(navDistanceToNext) }}</span>
+  <div class="map-hint" *ngIf="isPlacingDestination || isPlacingStop">
+    <span>{{ isPlacingDestination ? 'Tap the map to choose your destination' : 'Tap the map to add a meeting point' }}</span>
   </div>
-  <div class="nav-summary">
-    {{ formatDistance(navRemainingMeters) }} to destination
-    <span *ngIf="myEtaMinutes !== null"> · {{ formatEta(myEtaMinutes) }}</span>
-  </div>
-</div>
-</div>
 
+  <div class="nav-panel" *ngIf="navNextStep as step">
+    <div class="nav-primary">
+      <span class="nav-arrow">{{ step.icon }}</span>
+      <div class="nav-text">
+        <div class="nav-instruction">{{ step.instruction }}</div>
+        <div class="nav-road" *ngIf="step.roadName">onto {{ step.roadName }}</div>
+      </div>
+      <span class="nav-next-dist">{{ formatDistance(navDistanceToNext) }}</span>
+    </div>
+    <div class="nav-summary">
+      {{ formatDistance(navRemainingMeters) }} to destination
+      <span *ngIf="myEtaMinutes !== null"> · {{ formatEta(myEtaMinutes) }}</span>
+    </div>
+  </div>
+</div>
