@@ -748,14 +748,12 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     }
 
     try {
-      const { coords, durationSeconds, distanceMeters, steps } =
-        await this.fetchRoute(
-          myPos.lat,
-          myPos.lng,
-          target.lat,
-          target.lng,
-          this.travelMode,
-        );
+      const route = await this.fetchRoute(
+        myPos.lat,
+        myPos.lng,
+        target.lat,
+        target.lng,
+      );
       this.drawMyRoute(coords);
       this.buildNavigation(coords, distanceMeters, steps);
       this.updateProgress(L.latLng(myPos.lat, myPos.lng));
