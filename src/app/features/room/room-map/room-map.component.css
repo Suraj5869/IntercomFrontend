@@ -459,6 +459,66 @@
   font-size: 10px;
 }
 
+.traffic-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #8b8f98;
+}
+
+.traffic-dot.low,
+.traffic-swatch.low {
+  background: #4caf50;
+}
+
+.traffic-dot.moderate,
+.traffic-swatch.moderate {
+  background: #f2c94c;
+}
+
+.traffic-dot.heavy,
+.traffic-swatch.heavy {
+  background: #f2994a;
+}
+
+.traffic-dot.severe,
+.traffic-swatch.severe {
+  background: #eb5757;
+}
+
+.traffic-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 10px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.traffic-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.traffic-swatch {
+  width: 16px;
+  height: 4px;
+  border-radius: 999px;
+}
+
+.traffic-panel small {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
 .map-hint {
   position: absolute;
   top: 14px;
