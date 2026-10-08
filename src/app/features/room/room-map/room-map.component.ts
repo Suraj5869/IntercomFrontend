@@ -215,6 +215,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   constructor(
     private signalR: SignalRService,
     private toast: ToastService,
+    private mapService: MapService,
   ) {}
 
   ngAfterViewInit(): void {
