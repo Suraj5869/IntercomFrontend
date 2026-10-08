@@ -7,7 +7,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import * as L from 'leaflet';
+import { firstValueFrom } from 'rxjs';
 import { SignalRService } from 'src/app/core/services/signalr.service';
+import {
+  MapService,
+  MapTrafficSegment,
+} from 'src/app/core/services/map.service';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { DestinationPoint } from 'src/app/core/models/DestinationPoint';
 import { RiderLocation } from 'src/app/core/models/RideLocation';
