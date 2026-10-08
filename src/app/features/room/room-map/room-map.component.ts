@@ -242,7 +242,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
+      attribution: '&copy; OpenStreetMap contributors &middot; Mapbox',
       maxZoom: 19,
     }).addTo(this.map);
 
