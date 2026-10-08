@@ -80,7 +80,7 @@ function riderColor(userId: string): string {
   return RIDER_COLORS[Math.abs(h) % RIDER_COLORS.length];
 }
 
-interface OsrmStep {
+interface RouteStep {
   distance: number;
   name: string;
   maneuver: { type: string; modifier?: string; location: [number, number] };
