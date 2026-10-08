@@ -157,7 +157,10 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   private stopMarker: L.Marker | null = null;
   private previewDestinationMarker: L.Marker | null = null;
   private previewStopMarker: L.Marker | null = null;
-  private myRouteLine: L.Polyline | null = null;
+  private myRouteLines: L.Polyline[] = [];
+  trafficLevel: 'unknown' | 'low' | 'moderate' | 'heavy' | 'severe' = 'unknown';
+  trafficDelayMinutes = 0;
+  trafficDataAvailable = false;
 
   private watchId: number | null = null;
   private lastSentAt = 0;
