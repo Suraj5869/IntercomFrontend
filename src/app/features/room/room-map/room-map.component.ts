@@ -626,7 +626,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     if (mode === 'bike') {
       this.toast.showToast({
         type: 'info',
-        message: 'Bike routing uses two-wheeler directions. Route restrictions may occasionally be imperfect.',
+        message: 'Bike routing uses Valhalla motorcycle directions with OpenStreetMap road-access data.',
       });
     }
 
