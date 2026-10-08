@@ -455,12 +455,21 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   private async searchNominatim(query: string) {
     this.isSearching = true;
     try {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(query)}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Search failed: ${res.status}`);
-      this.searchResults = await res.json();
+      const proximity = this.lastSentPos
+        ? { lat: this.lastSentPos.lat, lng: this.lastSentPos.lng }
+        : null;
+
+      const results = await firstValueFrom(
+        this.mapService.search(query, proximity),
+      );
+
+      this.searchResults = results.map((result) => ({
+        display_name: result.label,
+        lat: result.lat.toString(),
+        lon: result.lng.toString(),
+      }));
     } catch (err) {
-      console.warn('Nominatim search failed', err);
+      console.warn('Map search failed', err);
       this.toast.showToast({
         type: 'error',
         message: 'Address search failed — try again',
@@ -470,7 +479,6 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
       this.isSearching = false;
     }
   }
-
   selectSearchResult(result: NominatimResult) {
     const lat = parseFloat(result.lat);
     const lng = parseFloat(result.lon);
