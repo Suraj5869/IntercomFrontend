@@ -791,7 +791,7 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   private buildNavigation(
     coords: L.LatLngExpression[],
     distanceMeters: number,
-    steps: OsrmStep[],
+    steps: RouteStep[],
   ) {
     this.routeCoords = coords.map((c) => L.latLng(c as [number, number]));
     this.routeCum = [0];
