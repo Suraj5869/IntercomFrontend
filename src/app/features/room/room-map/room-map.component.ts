@@ -623,6 +623,13 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     this.travelMode = mode;
     localStorage.setItem('travelMode', mode);
 
+    if (mode === 'bike') {
+      this.toast.showToast({
+        type: 'info',
+        message: 'Bike routing uses two-wheeler directions. Route restrictions may occasionally be imperfect.',
+      });
+    }
+
     const target = this.getRouteTarget();
     if (target) {
       this.computeMyRoute(target, true);
