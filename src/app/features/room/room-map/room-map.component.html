@@ -148,6 +148,23 @@
 </div>
 
 <div #mapEl class="map-canvas">
+  <div class="traffic-panel" *ngIf="myEtaMinutes !== null">
+    <div class="traffic-panel-header">
+      <span class="traffic-dot" [class]="'traffic-dot ' + trafficLevel"></span>
+      <strong>{{ trafficLabel }}</strong>
+      <span *ngIf="trafficDelayMinutes > 0" class="traffic-delay">
+        +{{ formatEta(trafficDelayMinutes) }}
+      </span>
+    </div>
+    <div class="traffic-legend">
+      <span><i class="traffic-swatch low"></i>Light</span>
+      <span><i class="traffic-swatch moderate"></i>Moderate</span>
+      <span><i class="traffic-swatch heavy"></i>Heavy</span>
+      <span><i class="traffic-swatch severe"></i>Severe</span>
+    </div>
+    <small *ngIf="!trafficDataAvailable">Live congestion data is unavailable for part of this route.</small>
+  </div>
+
   <div class="map-hint" *ngIf="isPlacingDestination || isPlacingStop">
     <span>{{ isPlacingDestination ? 'Tap the map to choose your destination' : 'Tap the map to add a meeting point' }}</span>
   </div>
