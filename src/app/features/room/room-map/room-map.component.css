@@ -430,6 +430,35 @@
   background: var(--bg-panel);
 }
 
+.traffic-panel {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 500;
+  min-width: 190px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-bright);
+  border-radius: 9px;
+  background: rgba(20, 20, 24, 0.94);
+  color: #fff;
+}
+
+.traffic-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+
+.traffic-panel-header strong {
+  flex: 1;
+}
+
+.traffic-delay {
+  color: #f2994a;
+  font-size: 10px;
+}
+
 .map-hint {
   position: absolute;
   top: 14px;
