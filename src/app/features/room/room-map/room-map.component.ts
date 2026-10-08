@@ -998,24 +998,92 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
   //   this.map.fitBounds(this.myRouteLine.getBounds(), { padding: [40, 40] });
   // }
 
-  private drawMyRoute(coords: L.LatLngExpression[]) {
-    const color = TRAVEL_MODES[this.travelMode].color;
-    if (this.myRouteLine) {
-      this.myRouteLine.setLatLngs(coords);
-      this.myRouteLine.setStyle({ color });
-    } else {
-      this.myRouteLine = L.polyline(coords, {
-        color,
-        weight: 5,
-        opacity: 0.85,
-      })
-        .addTo(this.map)
-        .bindTooltip(
-          () => `${this.formatDistance(this.navRemainingMeters)} remaining`,
-          { sticky: true, className: 'route-tooltip' },
-        );
+  private drawMyRoute(
+    coords: L.LatLngExpression[],
+    trafficSegments: MapTrafficSegment[],
+  ) {
+    this.clearRouteLayers();
+
+    const segments = trafficSegments.length
+      ? trafficSegments
+      : [{
+          coordinates: coords.map((coordinate) => {
+            const [lat, lng] = coordinate as [number, number];
+            return { lat, lng };
+          }),
+          level: 'unknown' as const,
+          numeric: null,
+        }];
+
+    for (const segment of segments) {
+      const segmentCoords = segment.coordinates.map(
+        (coordinate) =>
+          [coordinate.lat, coordinate.lng] as L.LatLngExpression,
+      );
+
+      if (segmentCoords.length < 2) continue;
+
+      const line = L.polyline(segmentCoords, {
+        color: this.trafficColor(segment.level),
+        weight: 6,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round',
+      }).addTo(this.map);
+
+      this.myRouteLines.push(line);
     }
-    this.map.fitBounds(this.myRouteLine.getBounds(), { padding: [40, 40] });
+
+    if (this.myRouteLines.length > 0) {
+      this.myRouteLines[0].bindTooltip(
+        () => `${this.formatDistance(this.navRemainingMeters)} remaining`,
+        { sticky: true, className: 'route-tooltip' },
+      );
+
+      const bounds = L.featureGroup(this.myRouteLines).getBounds();
+      if (bounds.isValid()) {
+        this.map.fitBounds(bounds, { padding: [40, 40] });
+      }
+    }
+  }
+
+  private clearRouteLayers() {
+    for (const line of this.myRouteLines) {
+      this.map.removeLayer(line);
+    }
+    this.myRouteLines = [];
+  }
+
+  private trafficColor(
+    level: 'unknown' | 'low' | 'moderate' | 'heavy' | 'severe',
+  ): string {
+    switch (level) {
+      case 'low':
+        return '#4caf50';
+      case 'moderate':
+        return '#f2c94c';
+      case 'heavy':
+        return '#f2994a';
+      case 'severe':
+        return '#eb5757';
+      default:
+        return '#8b8f98';
+    }
+  }
+
+  get trafficLabel(): string {
+    switch (this.trafficLevel) {
+      case 'low':
+        return 'Light traffic';
+      case 'moderate':
+        return 'Moderate traffic';
+      case 'heavy':
+        return 'Heavy traffic';
+      case 'severe':
+        return 'Severe traffic';
+      default:
+        return 'Traffic data unavailable';
+    }
   }
 
   private haversineMeters(
