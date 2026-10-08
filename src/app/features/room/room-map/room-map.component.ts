@@ -874,10 +874,10 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     this.routeSteps = [];
     this.navTotalMeters = 0;
     this.progressIndex = 0;
-    if (this.myRouteLine) {
-      this.map.removeLayer(this.myRouteLine);
-      this.myRouteLine = null;
-    }
+    this.clearRouteLayers();
+    this.trafficLevel = 'unknown';
+    this.trafficDelayMinutes = 0;
+    this.trafficDataAvailable = false;
     this.myEtaMinutes = null;
     if (this.lastSentPos) {
       this.signalR.updateLocation(
