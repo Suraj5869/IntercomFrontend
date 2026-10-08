@@ -928,18 +928,12 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
     trafficLevel: 'unknown' | 'low' | 'moderate' | 'heavy' | 'severe';
     trafficDataAvailable: boolean;
   }> {
-    const cfg = TRAVEL_MODES[mode];
-    const url =
-      `https://routing.openstreetmap.de/${cfg.profile}/route/v1/driving/` +
-      `${fromLng},${fromLat};${toLng},${toLat}?overview=full&geometries=geojson&steps=true`;
-
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`OSRM request failed: ${res.status}`);
-    const data = await res.json();
-
-    if (!data.routes || data.routes.length === 0) {
-      throw new Error('No route found');
-    }
+    const data = await firstValueFrom(
+      this.mapService.route(
+        { lat: fromLat, lng: fromLng },
+        { lat: toLat, lng: toLng },
+      ),
+    );
 
     // GeoJSON coordinates are [lng, lat] — Leaflet wants [lat, lng].
     const coordinates: [number, number][] = data.routes[0].geometry.coordinates;
