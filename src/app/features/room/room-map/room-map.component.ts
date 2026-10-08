@@ -100,26 +100,15 @@ const TRAVEL_MODES: Record<
   {
     label: string;
     icon: string;
-    profile: string;
-    etaFactor: number;
-    color: string;
   }
 > = {
   car: {
     label: 'Car',
     icon: '🚗',
-    profile: 'routed-car',
-    etaFactor: 1,
-    color: '#ffb020',
   },
-  // Motorcycle shares the car road network; only the ETA differs meaningfully.
-  // For an actual bicycle: profile 'routed-bike', etaFactor 1.
   bike: {
     label: 'Bike',
     icon: '🏍️',
-    profile: 'routed-car',
-    etaFactor: 0.85,
-    color: '#4ea8de',
   },
 };
 
