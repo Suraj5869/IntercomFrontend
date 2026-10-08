@@ -935,10 +935,9 @@ export class RoomMapComponent implements AfterViewInit, OnDestroy {
       ),
     );
 
-    // GeoJSON coordinates are [lng, lat] — Leaflet wants [lat, lng].
-    const coordinates: [number, number][] = data.routes[0].geometry.coordinates;
-    const coords = coordinates.map(
-      ([lng, lat]) => [lat, lng] as L.LatLngExpression,
+    const coords = data.coordinates.map(
+      (coordinate) =>
+        [coordinate.lat, coordinate.lng] as L.LatLngExpression,
     );
     return {
       coords,
